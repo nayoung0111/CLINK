@@ -352,7 +352,7 @@
       </div>
       <div>
         <label>연습 시간</label>
-        <input type="time" id="diary-time">
+        <input type="number" id="diary-time" placeholder="예: 1.5" min="0.5" max="24" step="0.5" style="width:100%"><span style="font-size:0.8rem;color:var(--muted);margin-top:0.3rem;display:block;">시간 단위 (예: 1, 1.5, 2)</span>
       </div>
       <div>
         <label>연습곡</label>
@@ -1175,9 +1175,8 @@ async function loadDiaries() {
 function openNewDiary() {
   currentDiaryId = null;
   const today = new Date().toISOString().slice(0, 10);
-  const now = new Date().toTimeString().slice(0, 5);
   document.getElementById('diary-date').value = today;
-  document.getElementById('diary-time').value = now;
+  document.getElementById('diary-time').value = '';
   document.getElementById('diary-song').value = '';
   document.getElementById('diary-memo').value = '';
   document.getElementById('char-count').textContent = '0';
