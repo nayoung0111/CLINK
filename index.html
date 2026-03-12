@@ -553,7 +553,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-app-compat.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-database-compat.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-auth-compat.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-firestore-compat.min.js"></script>
 <script>
 
 const firebaseConfig = {
@@ -569,7 +568,6 @@ const firebaseConfig = {
 const fbApp = firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const auth = firebase.auth();
-const fsdb = firebase.firestore();
 let currentUser = null;
 
 // Firebase compat SDK helpers
@@ -1153,19 +1151,17 @@ async function loadDiaries() {
   const container = document.getElementById('diary-list-container');
   container.innerHTML = '<div class="diary-empty">불러오는 중...</div>';
   try {
-    const snap = await fsdb.collection('diaries')
-      .where('uid', '==', currentUser.uid)
-      .orderBy('date', 'desc')
-      .get();
-    if (snap.empty) {
+    const snap = await ref('users/' + currentUser.uid + '/diaries').get();
+    if (!snap.exists() || !snap.val()) {
       container.innerHTML = '<div class="diary-empty">아직 작성한 일지가 없어요 😊<br>+ 새 일지 버튼을 눌러 첫 일지를 써보세요!</div>';
       return;
     }
-    container.innerHTML = snap.docs.map(doc => {
-      const d = doc.data();
+    const entries = Object.entries(snap.val())
+      .sort((a, b) => (b[1].date + b[1].time) > (a[1].date + a[1].time) ? 1 : -1);
+    container.innerHTML = entries.map(([id, d]) => {
       const dateStr = d.date ? d.date.replace(/-/g, '.') : '날짜 없음';
       const timeStr = d.time ? ' ' + d.time : '';
-      return `<div class="diary-item" onclick="openEditDiary('${doc.id}')">
+      return `<div class="diary-item" onclick="openEditDiary('${id}')">
         <div class="diary-item-date">${dateStr}${timeStr}</div>
         <div class="diary-item-song">${d.song || '곡 없음'}</div>
         <div class="diary-item-preview">${d.memo || '메모 없음'}</div>
@@ -1192,9 +1188,9 @@ function openNewDiary() {
 async function openEditDiary(id) {
   currentDiaryId = id;
   try {
-    const doc = await fsdb.collection('diaries').doc(id).get();
-    if (!doc.exists) { alert('일지를 찾을 수 없어요'); return; }
-    const d = doc.data();
+    const snap = await ref('users/' + currentUser.uid + '/diaries/' + id).get();
+    if (!snap.exists()) { alert('일지를 찾을 수 없어요'); return; }
+    const d = snap.val();
     document.getElementById('diary-date').value = d.date || '';
     document.getElementById('diary-time').value = d.time || '';
     document.getElementById('diary-song').value = d.song || '';
@@ -1210,19 +1206,19 @@ async function openEditDiary(id) {
 async function saveDiary() {
   if (!currentUser) return;
   const data = {
-    uid: currentUser.uid,
     date: document.getElementById('diary-date').value,
     time: document.getElementById('diary-time').value,
     song: document.getElementById('diary-song').value.trim(),
     memo: document.getElementById('diary-memo').value.trim(),
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: serverTimestamp(),
   };
   try {
     if (currentDiaryId) {
-      await fsdb.collection('diaries').doc(currentDiaryId).update(data);
+      await ref('users/' + currentUser.uid + '/diaries/' + currentDiaryId).update(data);
     } else {
-      data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-      await fsdb.collection('diaries').add(data);
+      data.createdAt = serverTimestamp();
+      const newRef = ref('users/' + currentUser.uid + '/diaries').push();
+      await newRef.set(data);
     }
     showToast('저장했어요 ✓');
     showScreen('screen-diary-list');
@@ -1236,7 +1232,7 @@ async function deleteDiary() {
   if (!currentDiaryId) return;
   if (!confirm('이 일지를 삭제할까요?')) return;
   try {
-    await fsdb.collection('diaries').doc(currentDiaryId).delete();
+    await remove(ref('users/' + currentUser.uid + '/diaries/' + currentDiaryId));
     showToast('삭제했어요');
     showScreen('screen-diary-list');
     loadDiaries();
