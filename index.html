@@ -999,16 +999,17 @@ async function stopMetronome() {
 }
 
 async function leaveRoom() {
+  if (S.isHost) {
+    if (!confirm('방을 나가면 방이 삭제되고 모든 멤버가 퇴장돼요. 나가시겠어요?')) return;
+  }
   if (S.unsubscribe) S.unsubscribe();
   stopNow();
   if (S.isHost) {
-    if (!confirm('방을 나가면 방이 삭제되고 모든 멤버가 퇴장돼요. 나가시겠어요?')) return;
     await remove(ref(`rooms/${S.roomCode}`));
   } else {
     await remove(ref(`rooms/${S.roomCode}/members/${S.myId}`));
   }
   S.roomCode = ''; S.isHost = false;
-  document.getElementById('screen-room').classList.remove('active');
   showScreen('screen-home');
 }
 
