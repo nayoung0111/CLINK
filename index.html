@@ -7,207 +7,370 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:#ffffff; --bg2:#f7f7fb; --surface:#f2f2f7; --surface2:#e8e8f0;
-    --accent:#3c41cd; --accent-light:rgba(60,65,205,0.08); --accent-mid:rgba(60,65,205,0.18);
-    --accent2:#6b6ef5; --text:#111118; --text2:#444458; --muted:#9999b0;
-    --border:#e2e2ee; --beat-glow:rgba(60,65,205,0.5); --danger:#e53935;
+    --bg: #ffffff;
+    --bg2: #f7f7fb;
+    --surface: #f2f2f7;
+    --surface2: #e8e8f0;
+    --accent: #3c41cd;
+    --accent-light: rgba(60,65,205,0.08);
+    --accent-mid: rgba(60,65,205,0.18);
+    --accent2: #6b6ef5;
+    --text: #111118;
+    --text2: #444458;
+    --muted: #9999b0;
+    --border: #e2e2ee;
+    --beat-glow: rgba(60,65,205,0.5);
+    --danger: #e53935;
   }
-  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;min-height:100vh;overflow-x:hidden;}
-  header{padding:1.2rem 1.5rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:100;}
-  .header-left{display:flex;align-items:center;gap:0.5rem;}
-  .logo-mark{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;}
-  .logo-mark svg{width:18px;height:18px;fill:white;}
-  .logo-text{font-size:1.15rem;font-weight:900;color:var(--text);letter-spacing:-0.01em;}
-  .logo-text span{color:var(--accent);}
-  .header-user{display:flex;align-items:center;gap:0.6rem;}
-  .user-avatar{width:30px;height:30px;border-radius:50%;background:var(--accent-light);border:1.5px solid var(--accent-mid);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--accent);overflow:hidden;flex-shrink:0;}
-  .user-avatar img{width:100%;height:100%;object-fit:cover;}
-  .user-name-small{font-size:0.78rem;font-weight:600;color:var(--text2);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .btn-logout{font-size:0.7rem;color:var(--muted);background:none;border:1px solid var(--border);padding:0.25rem 0.6rem;border-radius:6px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all 0.15s;}
-  .btn-logout:hover{color:var(--danger);border-color:var(--danger);}
-  .app{max-width:460px;margin:0 auto;padding:1.5rem;}
-  .screen{display:none;} .screen.active{display:block;}
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { background:var(--bg); color:var(--text); font-family:'Noto Sans KR',sans-serif; min-height:100vh; overflow-x:hidden; }
 
-  /* LOGIN */
-  .login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:70vh;text-align:center;gap:1.5rem;}
-  .login-icon{font-size:3rem;}
-  .login-title{font-size:1.5rem;font-weight:900;color:var(--text);}
-  .login-title span{color:var(--accent);}
-  .login-desc{font-size:0.85rem;color:var(--muted);line-height:1.7;}
-  .btn-google{display:flex;align-items:center;justify-content:center;gap:0.75rem;width:100%;max-width:280px;padding:0.9rem 1.5rem;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:all 0.15s;font-family:'Noto Sans KR',sans-serif;font-size:0.95rem;font-weight:600;color:var(--text);}
-  .btn-google:hover{border-color:var(--accent);box-shadow:0 2px 12px rgba(60,65,205,0.12);}
-  .btn-google svg{width:20px;height:20px;flex-shrink:0;}
+  header {
+    padding:1.2rem 1.5rem 1rem;
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:0.5rem;
+    background:var(--bg);
+    position:sticky; top:0; z-index:100;
+  }
+  .logo-mark { width:32px; height:32px; background:var(--accent); border-radius:8px; display:flex; align-items:center; justify-content:center; }
+  .logo-mark svg { width:18px; height:18px; fill:white; }
+  .logo-text { font-size:1.15rem; font-weight:900; color:var(--text); letter-spacing:-0.01em; }
+  .logo-text span { color:var(--accent); }
+
+  .app { max-width:460px; margin:0 auto; padding:1.5rem; }
+  .screen { display:none; }
+  .screen.active { display:block; }
 
   /* LOBBY */
-  .lobby-hero{margin-bottom:2rem;padding-top:0.5rem;}
-  .lobby-hero h1{font-size:1.6rem;font-weight:900;color:var(--text);line-height:1.3;}
-  .lobby-hero h1 span{color:var(--accent);}
-  .lobby-hero p{font-size:0.85rem;color:var(--muted);margin-top:0.4rem;font-weight:400;}
-  .lobby-section{margin-bottom:1.5rem;}
-  .lobby-section-title{font-size:1rem;font-weight:600;color:var(--text);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--accent);display:inline-block;}
-  .input-group{margin-bottom:0.75rem;}
-  .input-group label{display:block;font-size:0.72rem;font-weight:600;color:var(--text2);margin-bottom:0.35rem;letter-spacing:0.02em;}
-  input[type="text"],textarea{width:100%;background:var(--surface);border:1.5px solid var(--border);color:var(--text);padding:0.85rem 1rem;font-size:0.95rem;font-family:'Noto Sans KR',sans-serif;font-weight:400;outline:none;border-radius:10px;transition:all 0.2s;}
-  input[type="text"]:focus,textarea:focus{border-color:var(--accent);background:var(--bg);box-shadow:0 0 0 3px var(--accent-light);}
-  input[type="text"]::placeholder,textarea::placeholder{color:var(--muted);}
-  textarea{resize:none;line-height:1.6;}
-  .btn{width:100%;padding:0.95rem;font-family:'Noto Sans KR',sans-serif;font-size:0.95rem;font-weight:700;border:none;cursor:pointer;border-radius:10px;transition:all 0.15s;margin-bottom:0.5rem;letter-spacing:0.01em;}
-  .btn-primary{background:var(--accent);color:white;}
-  .btn-primary:hover{background:#3035b8;box-shadow:0 4px 16px rgba(60,65,205,0.3);transform:translateY(-1px);}
-  .btn-secondary{background:var(--bg);color:var(--accent);border:1.5px solid var(--accent);}
-  .btn-secondary:hover{background:var(--accent-light);}
-  .lobby-divider{display:flex;align-items:center;gap:0.8rem;margin:1.8rem 0 1.5rem;color:var(--muted);font-size:0.8rem;font-weight:400;}
-  .lobby-divider::before,.lobby-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+  .lobby-hero { margin-bottom:2rem; padding-top:0.5rem; }
+  .lobby-hero h1 { font-size:1.6rem; font-weight:900; color:var(--text); line-height:1.3; }
+  .lobby-hero h1 span { color:var(--accent); }
+  .lobby-hero p { font-size:0.85rem; color:var(--muted); margin-top:0.4rem; font-weight:400; }
+  .lobby-section { margin-bottom:1.5rem; }
+  .lobby-section-title { font-size:1rem; font-weight:600; color:var(--text); margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:2px solid var(--accent); display:inline-block; }
+  .input-group { margin-bottom:0.75rem; }
+  .input-group label { display:block; font-size:0.72rem; font-weight:600; color:var(--text2); margin-bottom:0.35rem; letter-spacing:0.02em; }
+  input[type="text"] { width:100%; background:var(--surface); border:1.5px solid var(--border); color:var(--text); padding:0.85rem 1rem; font-size:0.95rem; font-family:'Noto Sans KR',sans-serif; font-weight:400; outline:none; border-radius:10px; transition:all 0.2s; }
+  input[type="text"]:focus { border-color:var(--accent); background:var(--bg); box-shadow:0 0 0 3px var(--accent-light); }
+  input[type="text"]::placeholder { color:var(--muted); }
+  .btn { width:100%; padding:0.95rem; font-family:'Noto Sans KR',sans-serif; font-size:0.95rem; font-weight:700; border:none; cursor:pointer; border-radius:10px; transition:all 0.15s; margin-bottom:0.5rem; letter-spacing:0.01em; }
+  .btn-primary { background:var(--accent); color:white; }
+  .btn-primary:hover { background:#3035b8; box-shadow:0 4px 16px rgba(60,65,205,0.3); transform:translateY(-1px); }
+  .btn-primary:active { transform:translateY(0); }
+  .btn-secondary { background:var(--bg); color:var(--accent); border:1.5px solid var(--accent); }
+  .btn-secondary:hover { background:var(--accent-light); }
+  .lobby-divider { display:flex; align-items:center; gap:0.8rem; margin:1.8rem 0 1.5rem; color:var(--muted); font-size:0.8rem; font-weight:400; }
+  .lobby-divider::before,.lobby-divider::after { content:''; flex:1; height:1px; background:var(--border); }
 
   /* ROOM */
-  .room-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
-  .room-name-display{font-size:1.3rem;font-weight:900;color:var(--text);}
-  .room-code-line{font-size:0.72rem;color:var(--muted);margin-top:0.2rem;font-weight:400;}
-  .room-code-line span{color:var(--accent);font-weight:700;cursor:pointer;}
-  .role-badge{padding:0.3rem 0.75rem;border-radius:20px;font-size:0.68rem;font-weight:700;letter-spacing:0.03em;}
-  .role-host{background:var(--accent-light);color:var(--accent);border:1px solid var(--accent-mid);}
-  .role-member{background:#f0f0ff;color:var(--accent2);border:1px solid #d0d0fa;}
+  .room-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.2rem; padding-bottom:1rem; border-bottom:1px solid var(--border); }
+  .room-name-display { font-size:1.3rem; font-weight:900; color:var(--text); }
+  .room-code-line { font-size:0.72rem; color:var(--muted); margin-top:0.2rem; font-weight:400; }
+  .room-code-line span { color:var(--accent); font-weight:700; cursor:pointer; }
+  .role-badge { padding:0.3rem 0.75rem; border-radius:20px; font-size:0.68rem; font-weight:700; letter-spacing:0.03em; }
+  .role-host { background:var(--accent-light); color:var(--accent); border:1px solid var(--accent-mid); }
+  .role-member { background:#f0f0ff; color:var(--accent2); border:1px solid #d0d0fa; }
 
-  /* BEAT */
-  .beat-display{text-align:center;margin:1.2rem 0;}
-  .beat-circle{width:155px;height:155px;border-radius:50%;border:3px solid var(--border);margin:0 auto;display:flex;align-items:center;justify-content:center;flex-direction:column;background:var(--surface);transition:all 0.05s;}
-  .beat-circle.beat-on{border-color:var(--accent);box-shadow:0 0 0 8px var(--accent-light),0 0 30px rgba(60,65,205,0.2);background:#f0f0ff;}
-  .beat-circle.downbeat.beat-on{box-shadow:0 0 0 10px var(--accent-mid),0 0 40px rgba(60,65,205,0.3);background:#e8e8ff;}
-  .bpm-big{font-size:3.2rem;font-weight:700;line-height:1;color:var(--text);font-family:'Bebas Neue',cursive;}
-  .bpm-label{font-size:0.65rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.15em;}
-  .current-song-name{font-size:0.72rem;color:var(--accent);margin-top:0.25rem;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;}
-  .beat-dots{display:flex;justify-content:center;gap:0.5rem;margin-top:0.8rem;}
-  .beat-dot{width:10px;height:10px;border-radius:50%;background:var(--surface2);border:1.5px solid var(--border);transition:all 0.05s;}
-  .beat-dot.active{background:var(--accent);box-shadow:0 0 8px var(--beat-glow);border-color:var(--accent);}
-  .beat-dot.downbeat.active{box-shadow:0 0 12px var(--beat-glow);}
+  .status-bar { display:flex; align-items:center; gap:0.5rem; padding:0.6rem 0.9rem; background:var(--surface); border:1px solid var(--border); border-radius:8px; margin-bottom:1rem; font-size:0.78rem; color:var(--muted); font-weight:400; }
+  .status-dot { width:7px; height:7px; border-radius:50%; background:var(--muted); flex-shrink:0; }
+  .status-dot.running { background:#22c55e; animation:pulse 1s infinite; }
+  .status-dot.countdown { background:var(--accent); animation:pulse 0.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-  /* CONTROLS */
-  .control-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:0.8rem;}
-  .ctrl-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.7rem;}
-  .ctrl-label{font-size:0.7rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;}
-  .ctrl-readout{font-size:0.95rem;font-weight:700;}
-  .ctrl-readout.accent{color:var(--accent);} .ctrl-readout.blue{color:#2196f3;} .ctrl-readout.orange{color:#f57c00;} .ctrl-readout.muted{color:var(--muted);}
-  .btn-row{display:flex;align-items:center;gap:0.5rem;}
-  .ctrl-btn{width:38px;height:38px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);color:var(--text2);font-size:0.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;font-family:'Noto Sans KR',sans-serif;}
-  .ctrl-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
-  input[type="range"]{flex:1;-webkit-appearance:none;height:4px;background:var(--surface2);border-radius:4px;outline:none;}
-  input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 2px 6px var(--beat-glow);}
-  .time-sig-row{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:0.8rem 1rem;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.8rem;}
-  .ts-label{font-size:0.7rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;white-space:nowrap;}
-  .ts-btns{display:flex;gap:0.4rem;}
-  .ts-btn{padding:0.3rem 0.75rem;background:var(--bg);border:1.5px solid var(--border);color:var(--muted);font-size:0.78rem;font-weight:600;cursor:pointer;border-radius:6px;transition:all 0.15s;font-family:'Noto Sans KR',sans-serif;}
-  .ts-btn.active{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
-  .btn-start{width:100%;padding:1.1rem;font-family:'Noto Sans KR',sans-serif;font-size:1rem;font-weight:700;border:none;cursor:pointer;border-radius:12px;background:var(--accent);color:white;transition:all 0.15s;margin-bottom:0.5rem;}
-  .btn-start:hover{background:#3035b8;box-shadow:0 4px 20px rgba(60,65,205,0.35);transform:translateY(-1px);}
-  .btn-stop{width:100%;padding:0.85rem;font-family:'Noto Sans KR',sans-serif;font-size:0.95rem;font-weight:600;border:1.5px solid var(--border);background:var(--bg);color:var(--text2);cursor:pointer;border-radius:12px;transition:all 0.15s;margin-bottom:0.8rem;}
-  .btn-stop:hover{border-color:var(--danger);color:var(--danger);}
+  .beat-display { text-align:center; margin:1.2rem 0; }
+  .beat-circle { width:155px; height:155px; border-radius:50%; border:3px solid var(--border); margin:0 auto; display:flex; align-items:center; justify-content:center; flex-direction:column; background:var(--surface); transition:all 0.05s; }
+  .beat-circle.beat-on { border-color:var(--accent); box-shadow:0 0 0 8px var(--accent-light), 0 0 30px rgba(60,65,205,0.2); background:#f0f0ff; }
+  .beat-circle.downbeat.beat-on { border-color:var(--accent); box-shadow:0 0 0 10px var(--accent-mid), 0 0 40px rgba(60,65,205,0.3); background:#e8e8ff; }
+  .bpm-big { font-size:3.2rem; font-weight:700; line-height:1; color:var(--text); font-family:'Bebas Neue',cursive; }
+  .bpm-label { font-size:0.65rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.15em; }
+  .current-song-name { font-size:0.72rem; color:var(--accent); margin-top:0.25rem; max-width:130px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:600; }
+  .beat-dots { display:flex; justify-content:center; gap:0.5rem; margin-top:0.8rem; }
+  .beat-dot { width:10px; height:10px; border-radius:50%; background:var(--surface2); border:1.5px solid var(--border); transition:all 0.05s; }
+  .beat-dot.active { background:var(--accent); box-shadow:0 0 8px var(--beat-glow); border-color:var(--accent); }
+  .beat-dot.downbeat.active { background:var(--accent); box-shadow:0 0 12px var(--beat-glow); }
+
+  .control-box { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1rem; margin-bottom:0.8rem; }
+  .ctrl-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.7rem; }
+  .ctrl-label { font-size:0.7rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+  .ctrl-readout { font-size:0.95rem; font-weight:700; }
+  .ctrl-readout.accent { color:var(--accent); }
+  .ctrl-readout.blue { color:#2196f3; }
+  .ctrl-readout.orange { color:#f57c00; }
+  .ctrl-readout.muted { color:var(--muted); }
+  .btn-row { display:flex; align-items:center; gap:0.5rem; }
+  .ctrl-btn { width:38px; height:38px; border-radius:8px; border:1.5px solid var(--border); background:var(--bg); color:var(--text2); font-size:0.85rem; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s; flex-shrink:0; font-family:'Noto Sans KR',sans-serif; }
+  .ctrl-btn:hover { border-color:var(--accent); color:var(--accent); background:var(--accent-light); }
+  input[type="range"] { flex:1; -webkit-appearance:none; height:4px; background:var(--surface2); border-radius:4px; outline:none; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; width:18px; height:18px; border-radius:50%; background:var(--accent); cursor:pointer; box-shadow:0 2px 6px var(--beat-glow); }
+
+  .time-sig-row { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:0.8rem 1rem; margin-bottom:0.8rem; display:flex; align-items:center; gap:0.8rem; }
+  .ts-label { font-size:0.7rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; white-space:nowrap; }
+  .ts-btns { display:flex; gap:0.4rem; }
+  .ts-btn { padding:0.3rem 0.75rem; background:var(--bg); border:1.5px solid var(--border); color:var(--muted); font-size:0.78rem; font-weight:600; cursor:pointer; border-radius:6px; transition:all 0.15s; font-family:'Noto Sans KR',sans-serif; }
+  .ts-btn.active { background:var(--accent-light); border-color:var(--accent); color:var(--accent); }
+
+  .btn-start { width:100%; padding:1.1rem; font-family:'Noto Sans KR',sans-serif; font-size:1rem; font-weight:700; border:none; cursor:pointer; border-radius:12px; background:var(--accent); color:white; transition:all 0.15s; margin-bottom:0.5rem; }
+  .btn-start:hover { background:#3035b8; box-shadow:0 4px 20px rgba(60,65,205,0.35); transform:translateY(-1px); }
+  .btn-stop { width:100%; padding:0.85rem; font-family:'Noto Sans KR',sans-serif; font-size:0.95rem; font-weight:600; border:1.5px solid var(--border); background:var(--bg); color:var(--text2); cursor:pointer; border-radius:12px; transition:all 0.15s; margin-bottom:0.8rem; }
+  .btn-stop:hover { border-color:var(--danger); color:var(--danger); }
 
   /* SETLIST */
-  .setlist-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:0.8rem;}
-  .setlist-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem;}
-  .setlist-title{font-size:0.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;}
-  .setlist-add-form{display:flex;gap:0.5rem;margin-bottom:0.8rem;}
-  .setlist-add-form input[type="text"]{flex:1;padding:0.6rem 0.8rem;font-size:0.85rem;border-radius:8px;}
-  .setlist-add-form input.bpm-input{width:76px;flex:none;}
-  .btn-add-song{padding:0.6rem 0.9rem;background:var(--accent);color:white;border:none;border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:700;font-family:'Noto Sans KR',sans-serif;transition:all 0.15s;white-space:nowrap;}
-  .btn-add-song:hover{background:#3035b8;}
-  .setlist-list{display:flex;flex-direction:column;gap:0.4rem;}
-  .setlist-empty{text-align:center;color:var(--muted);font-size:0.8rem;padding:1rem 0;font-weight:400;}
-  .song-item{display:flex;align-items:center;gap:0.6rem;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:0.65rem 0.8rem;cursor:pointer;transition:all 0.15s;}
-  .song-item:hover{border-color:var(--accent);background:var(--accent-light);}
-  .song-item.active{border-color:var(--accent);background:var(--accent-light);box-shadow:0 0 0 1px var(--accent-mid);}
-  .song-num{font-size:0.82rem;font-weight:700;color:var(--muted);width:18px;flex-shrink:0;}
-  .song-info{flex:1;min-width:0;}
-  .song-name{font-size:0.88rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .song-bpm{font-size:0.78rem;font-weight:600;color:var(--accent2);margin-top:0.1rem;}
-  .song-active-badge{font-size:0.62rem;font-weight:700;color:var(--accent);background:var(--accent-light);border:1px solid var(--accent-mid);padding:0.15rem 0.45rem;border-radius:4px;white-space:nowrap;}
-  .btn-del-song{background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.9rem;padding:0.25rem 0.4rem;border-radius:4px;transition:all 0.15s;flex-shrink:0;}
-  .btn-del-song:hover{color:var(--danger);background:#fff0f0;}
+  .setlist-box { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1rem; margin-bottom:0.8rem; }
+  .setlist-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem; }
+  .setlist-title { font-size:0.7rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+  .setlist-add-form { display:flex; gap:0.5rem; margin-bottom:0.8rem; }
+  .setlist-add-form input[type="text"] { flex:1; padding:0.6rem 0.8rem; font-size:0.85rem; border-radius:8px; }
+  .setlist-add-form input.bpm-input { width:76px; flex:none; }
+  .btn-add-song { padding:0.6rem 0.9rem; background:var(--accent); color:white; border:none; border-radius:8px; cursor:pointer; font-size:0.85rem; font-weight:700; font-family:'Noto Sans KR',sans-serif; transition:all 0.15s; white-space:nowrap; }
+  .btn-add-song:hover { background:#3035b8; }
+  .setlist-list { display:flex; flex-direction:column; gap:0.4rem; }
+  .setlist-empty { text-align:center; color:var(--muted); font-size:0.8rem; padding:1rem 0; font-weight:400; }
+  .song-item { display:flex; align-items:center; gap:0.6rem; background:var(--bg); border:1.5px solid var(--border); border-radius:8px; padding:0.65rem 0.8rem; cursor:pointer; transition:all 0.15s; }
+  .song-item:hover { border-color:var(--accent); background:var(--accent-light); }
+  .song-item.active { border-color:var(--accent); background:var(--accent-light); box-shadow:0 0 0 1px var(--accent-mid); }
+  .song-num { font-size:0.82rem; font-weight:700; color:var(--muted); width:18px; flex-shrink:0; }
+  .song-info { flex:1; min-width:0; }
+  .song-name { font-size:0.88rem; font-weight:700; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .song-bpm { font-size:0.78rem; font-weight:600; color:var(--accent2); margin-top:0.1rem; }
+  .song-active-badge { font-size:0.62rem; font-weight:700; color:var(--accent); background:var(--accent-light); border:1px solid var(--accent-mid); padding:0.15rem 0.45rem; border-radius:4px; white-space:nowrap; }
+  .btn-del-song { background:none; border:none; color:var(--muted); cursor:pointer; font-size:0.9rem; padding:0.25rem 0.4rem; border-radius:4px; transition:all 0.15s; flex-shrink:0; }
+  .btn-del-song:hover { color:var(--danger); background:#fff0f0; }
 
-  /* MEMBER */
-  .current-song-display{background:var(--accent-light);border:1.5px solid var(--accent-mid);border-radius:12px;padding:0.9rem 1rem;margin-bottom:0.8rem;display:none;}
-  .current-song-display.visible{display:block;}
-  .csd-label{font-size:0.68rem;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem;}
-  .csd-name{font-size:1rem;font-weight:700;color:var(--text);}
-  .csd-bpm{font-size:0.85rem;font-weight:600;color:var(--accent2);margin-top:0.15rem;}
-  .offset-desc{font-size:0.68rem;color:var(--muted);margin-top:0.5rem;text-align:center;line-height:1.5;font-weight:400;}
-  .sync-status{font-size:0.68rem;font-weight:500;color:var(--muted);text-align:center;padding:0.3rem;margin-bottom:0.6rem;}
-  .sync-status.good{color:#22c55e;} .sync-status.measuring{color:var(--accent);}
-  .members-section{margin-bottom:0.8rem;}
-  .members-label{font-size:0.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem;}
-  .members-list{display:flex;flex-wrap:wrap;gap:0.4rem;}
-  .member-chip{display:flex;align-items:center;gap:0.35rem;background:var(--surface);border:1px solid var(--border);padding:0.28rem 0.7rem;border-radius:20px;font-size:0.78rem;font-weight:500;}
-  .member-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;}
-  .member-notice{text-align:center;padding:1.3rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:0.8rem;color:var(--muted);font-size:0.85rem;line-height:1.8;font-weight:400;}
-  .notice-icon{font-size:1.8rem;margin-bottom:0.4rem;}
+  .current-song-display { background:var(--accent-light); border:1.5px solid var(--accent-mid); border-radius:12px; padding:0.9rem 1rem; margin-bottom:0.8rem; display:none; }
+  .current-song-display.visible { display:block; }
+  .csd-label { font-size:0.68rem; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.3rem; }
+  .csd-name { font-size:1rem; font-weight:700; color:var(--text); }
+  .csd-bpm { font-size:0.85rem; font-weight:600; color:var(--accent2); margin-top:0.15rem; }
+  .offset-desc { font-size:0.68rem; color:var(--muted); margin-top:0.5rem; text-align:center; line-height:1.5; font-weight:400; }
 
-  /* 연습 기록 */
-  .record-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:0.8rem;}
-  .record-box-title{font-size:0.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.8rem;}
-  .record-textarea{height:80px;font-size:0.88rem;padding:0.75rem 0.9rem;border-radius:8px;}
-  .record-char-count{font-size:0.65rem;color:var(--muted);text-align:right;margin-top:0.3rem;}
-  .btn-save-record{width:100%;margin-top:0.5rem;padding:0.75rem;background:var(--accent);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.88rem;font-family:'Noto Sans KR',sans-serif;transition:all 0.15s;}
-  .btn-save-record:hover{background:#3035b8;}
-  .records-section{margin-bottom:0.8rem;}
-  .records-section-title{font-size:0.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.6rem;}
-  .record-item{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:0.8rem 0.9rem;margin-bottom:0.5rem;}
-  .record-item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;}
-  .record-item-date{font-size:0.7rem;color:var(--muted);font-weight:500;}
-  .record-item-bpm{font-size:0.72rem;font-weight:700;color:var(--accent);background:var(--accent-light);padding:0.15rem 0.5rem;border-radius:4px;}
-  .record-item-song{font-size:0.75rem;font-weight:600;color:var(--text2);margin-bottom:0.3rem;}
-  .record-item-memo{font-size:0.82rem;color:var(--text);line-height:1.5;}
-  .btn-del-record{background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.8rem;padding:0.1rem 0.3rem;transition:all 0.15s;}
-  .btn-del-record:hover{color:var(--danger);}
-  .records-empty{text-align:center;color:var(--muted);font-size:0.82rem;padding:1rem 0;}
+  .sync-status { font-size:0.68rem; font-weight:500; color:var(--muted); text-align:center; padding:0.3rem; margin-bottom:0.6rem; }
+  .sync-status.good { color:#22c55e; }
+  .sync-status.measuring { color:var(--accent); }
 
-  /* COUNTDOWN */
-  .countdown-overlay{position:fixed;inset:0;background:rgba(255,255,255,0.97);display:none;align-items:center;justify-content:center;z-index:999;flex-direction:column;gap:0.5rem;}
-  .countdown-overlay.show{display:flex;}
-  .countdown-song{font-size:1rem;font-weight:700;color:var(--accent);letter-spacing:0.05em;}
-  .countdown-num{font-size:10rem;font-weight:900;color:var(--accent);text-shadow:0 0 40px var(--beat-glow);animation:countScale 0.85s ease-out;line-height:1;}
-  @keyframes countScale{0%{transform:scale(1.4);opacity:0}20%{opacity:1}80%{transform:scale(1);opacity:1}100%{transform:scale(0.85);opacity:0}}
-  .btn-leave{width:100%;background:none;border:1px solid var(--border);color:var(--muted);padding:0.55rem;font-size:0.78rem;font-weight:500;cursor:pointer;border-radius:8px;transition:all 0.15s;font-family:'Noto Sans KR',sans-serif;margin-bottom:1rem;}
-  .btn-leave:hover{border-color:var(--danger);color:var(--danger);}
-  .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:white;padding:0.55rem 1.3rem;border-radius:20px;font-size:0.78rem;font-weight:500;opacity:0;transition:all 0.3s;pointer-events:none;z-index:2000;}
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  /* MEMBERS */
+  .members-section { margin-bottom:0.8rem; }
+  .members-label { font-size:0.68rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem; }
+  .members-list { display:flex; flex-wrap:wrap; gap:0.4rem; }
+  .member-chip { display:flex; align-items:center; gap:0.35rem; background:var(--surface); border:1px solid var(--border); padding:0.28rem 0.7rem; border-radius:20px; font-size:0.78rem; font-weight:500; }
+  .member-dot { width:6px; height:6px; border-radius:50%; background:#22c55e; }
+  .btn-transfer { background:none; border:1px solid var(--border); color:var(--muted); font-size:0.65rem; padding:0.1rem 0.4rem; border-radius:4px; cursor:pointer; margin-left:0.2rem; font-family:'Noto Sans KR',sans-serif; transition:all 0.15s; }
+  .btn-transfer:hover { border-color:var(--accent); color:var(--accent); background:var(--accent-light); }
+
+  .member-notice { text-align:center; padding:1.3rem 1rem; background:var(--surface); border:1px solid var(--border); border-radius:12px; margin-bottom:0.8rem; color:var(--muted); font-size:0.85rem; line-height:1.8; font-weight:400; }
+  .notice-icon { font-size:1.8rem; margin-bottom:0.4rem; }
+
+  .countdown-overlay { position:fixed; inset:0; background:rgba(255,255,255,0.97); display:none; align-items:center; justify-content:center; z-index:999; flex-direction:column; gap:0.5rem; }
+  .countdown-overlay.show { display:flex; }
+  .countdown-song { font-size:1rem; font-weight:700; color:var(--accent); letter-spacing:0.05em; }
+  .countdown-num { font-size:10rem; font-weight:900; color:var(--accent); text-shadow:0 0 40px var(--beat-glow); animation:countScale 0.85s ease-out; line-height:1; }
+  @keyframes countScale { 0%{transform:scale(1.4);opacity:0} 20%{opacity:1} 80%{transform:scale(1);opacity:1} 100%{transform:scale(0.85);opacity:0} }
+
+  .btn-leave { width:100%; background:none; border:1px solid var(--border); color:var(--muted); padding:0.55rem; font-size:0.78rem; font-weight:500; cursor:pointer; border-radius:8px; transition:all 0.15s; font-family:'Noto Sans KR',sans-serif; }
+  .btn-leave:hover { border-color:var(--danger); color:var(--danger); }
+
+  .toast { position:fixed; bottom:2rem; left:50%; transform:translateX(-50%) translateY(20px); background:var(--text); color:white; padding:0.55rem 1.3rem; border-radius:20px; font-size:0.78rem; font-weight:500; opacity:0; transition:all 0.3s; pointer-events:none; z-index:2000; }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* HOME */
+  .home-hero { padding:2rem 0 1.5rem; }
+  .home-hero h1 { font-size:1.6rem; font-weight:900; color:var(--text); line-height:1.3; }
+  .home-hero h1 span { color:var(--accent); }
+  .home-hero p { font-size:0.85rem; color:var(--muted); margin-top:0.4rem; font-weight:400; }
+  .home-cards { display:flex; flex-direction:column; gap:1rem; margin-top:1.5rem; }
+  .home-card {
+    border-radius:16px; padding:1.5rem;
+    cursor:pointer; transition:all 0.18s;
+    display:flex; align-items:center; gap:1.2rem;
+    border:1.5px solid var(--border); background:var(--bg);
+  }
+  .home-card:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(60,65,205,0.13); border-color:var(--accent); }
+  .home-card-icon { font-size:2.2rem; flex-shrink:0; }
+  .home-card-text {}
+  .home-card-title { font-size:1.05rem; font-weight:900; color:var(--text); margin-bottom:0.25rem; }
+  .home-card-desc { font-size:0.78rem; color:var(--muted); font-weight:400; line-height:1.5; }
+  .home-card.accent { background:var(--accent); border-color:var(--accent); }
+  .home-card.accent .home-card-title { color:white; }
+  .home-card.accent .home-card-desc { color:rgba(255,255,255,0.75); }
+
+  /* SOLO METRO */
+  .solo-header { display:flex; align-items:center; gap:0.8rem; margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid var(--border); }
+  .btn-back { background:none; border:1px solid var(--border); color:var(--text2); padding:0.4rem 0.8rem; border-radius:8px; cursor:pointer; font-size:0.82rem; font-weight:600; font-family:'Noto Sans KR',sans-serif; transition:all 0.15s; }
+  .btn-back:hover { border-color:var(--accent); color:var(--accent); }
+  .solo-title { font-size:1.1rem; font-weight:900; color:var(--text); }
+
+  /* ===== 로그인 / 일지 공통 ===== */
+  .login-wrap { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; gap:1.5rem; padding:2rem; text-align:center; }
+  .login-icon { font-size:3.5rem; }
+  .login-title { font-size:1.3rem; font-weight:900; color:var(--text); }
+  .login-desc { font-size:0.85rem; color:var(--muted); line-height:1.6; }
+  .btn-google { display:flex; align-items:center; gap:0.75rem; background:#fff; border:1.5px solid var(--border); border-radius:12px; padding:0.85rem 1.5rem; font-size:0.95rem; font-weight:700; color:var(--text); cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.07); transition:all 0.15s; font-family:'Noto Sans KR',sans-serif; }
+  .btn-google:hover { border-color:var(--accent); box-shadow:0 4px 16px rgba(60,65,205,0.13); }
+  .btn-google svg { width:20px; height:20px; flex-shrink:0; }
+
+  /* 일지 목록 */
+  .diary-header { display:flex; align-items:center; justify-content:space-between; padding:1rem 1.5rem 0.75rem; border-bottom:1px solid var(--border); }
+  .diary-header-left { display:flex; align-items:center; gap:0.75rem; }
+  .diary-user { font-size:0.78rem; color:var(--muted); }
+  .btn-logout { background:none; border:1px solid var(--border); border-radius:8px; padding:0.3rem 0.7rem; font-size:0.75rem; color:var(--muted); cursor:pointer; font-family:'Noto Sans KR',sans-serif; }
+  .btn-logout:hover { border-color:var(--danger); color:var(--danger); }
+  .diary-list { padding:1rem 1.5rem; display:flex; flex-direction:column; gap:0.75rem; }
+  .diary-item { background:var(--surface); border-radius:14px; padding:1rem 1.2rem; cursor:pointer; transition:all 0.15s; border:1.5px solid transparent; }
+  .diary-item:hover { border-color:var(--accent); background:var(--accent-light); }
+  .diary-item-date { font-size:0.75rem; color:var(--muted); margin-bottom:0.3rem; }
+  .diary-item-song { font-size:1rem; font-weight:700; color:var(--text); margin-bottom:0.2rem; }
+  .diary-item-preview { font-size:0.8rem; color:var(--text2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .diary-empty { text-align:center; padding:3rem 1rem; color:var(--muted); font-size:0.9rem; line-height:1.8; }
+  .btn-new-diary { position:fixed; bottom:2rem; right:1.5rem; background:var(--accent); color:#fff; border:none; border-radius:50px; padding:0.85rem 1.5rem; font-size:0.95rem; font-weight:700; cursor:pointer; box-shadow:0 4px 16px rgba(60,65,205,0.35); font-family:'Noto Sans KR',sans-serif; transition:all 0.15s; z-index:10; }
+  .btn-new-diary:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(60,65,205,0.45); }
+
+  /* 일지 작성/보기 */
+  .diary-form { padding:1.5rem; display:flex; flex-direction:column; gap:1.2rem; padding-bottom:6rem; }
+  .diary-form label { font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.35rem; display:block; }
+  .diary-form input[type=text], .diary-form input[type=date], .diary-form input[type=time], .diary-form textarea {
+    width:100%; background:var(--surface); border:1.5px solid var(--border); border-radius:10px;
+    padding:0.75rem 1rem; font-size:0.95rem; color:var(--text); font-family:'Noto Sans KR',sans-serif;
+    outline:none; transition:border 0.15s;
+  }
+  .diary-form input:focus, .diary-form textarea:focus { border-color:var(--accent); }
+  .diary-form textarea { resize:none; height:180px; line-height:1.7; }
+  .char-count { font-size:0.75rem; color:var(--muted); text-align:right; margin-top:0.25rem; }
+  .diary-form-header { display:flex; align-items:center; justify-content:space-between; padding:1rem 1.5rem 0.75rem; border-bottom:1px solid var(--border); }
+  .btn-save-diary { background:var(--accent); color:#fff; border:none; border-radius:10px; padding:0.65rem 1.3rem; font-size:0.9rem; font-weight:700; cursor:pointer; font-family:'Noto Sans KR',sans-serif; }
+  .btn-delete-diary { background:none; border:1px solid var(--border); border-radius:10px; padding:0.65rem 1rem; font-size:0.85rem; color:var(--muted); cursor:pointer; font-family:'Noto Sans KR',sans-serif; }
+  .btn-delete-diary:hover { border-color:var(--danger); color:var(--danger); }
+  .diary-form-actions { display:flex; gap:0.75rem; }
+
 </style>
 </head>
 <body>
+
 <header>
-  <div class="header-left">
-    <div class="logo-mark">
-      <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 100 18A9 9 0 0012 3zm0 2a7 7 0 110 14A7 7 0 0112 5zm-.5 3v5.25l4.5 2.67-.75 1.23L10 14V8h1.5z"/></svg>
-    </div>
-    <div class="logo-text">뉴웨이브<span> 똥먹자</span></div>
+  <div class="logo-mark">
+    <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 100 18A9 9 0 0012 3zm0 2a7 7 0 110 14A7 7 0 0112 5zm-.5 3v5.25l4.5 2.67-.75 1.23L10 14V8h1.5z"/></svg>
   </div>
-  <div class="header-user" id="header-user" style="display:none">
-    <div class="user-avatar" id="user-avatar">?</div>
-    <div class="user-name-small" id="user-name-small"></div>
-    <button class="btn-logout" onclick="logout()">로그아웃</button>
+  <div>
+    <div class="logo-text">뉴웨이브<span> 똥먹자</span></div>
   </div>
 </header>
 
 <div class="app">
 
-  <!-- 로그인 -->
-  <div id="screen-login" class="screen active">
-    <div class="login-screen">
-      <div class="login-icon">🎸</div>
-      <div class="login-title">함께 맞추는<br><span>완벽한 박자</span></div>
-      <div class="login-desc">로그인하면 연습 기록이 저장돼요.<br>밴드 합주, 레슨, 개인 연습 모두 OK!</div>
+  <!-- HOME -->
+  <div id="screen-home" class="screen active">
+    <div class="home-hero">
+      <h1>함께 맞추는<br><span>완벽한 박자</span></h1>
+      <p>아영이 파이팅💙</p>
+    </div>
+    <div class="home-cards">
+      <div class="home-card" data-screen="screen-personal">
+        <div class="home-card-icon">🎧</div>
+        <div class="home-card-text">
+          <div class="home-card-title">개인 연습</div>
+          <div class="home-card-desc">혼자 쓰는 메트로놈<br>인터넷 없이도 사용 가능</div>
+        </div>
+      </div>
+      <div class="home-card accent" data-screen="screen-lobby">
+        <div class="home-card-icon">🎸</div>
+        <div class="home-card-text">
+          <div class="home-card-title">팀 연습</div>
+          <div class="home-card-desc">밴드 멤버 모두가 같은 박자로<br>실시간 동기화 메트로놈</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERSONAL SUB-MENU -->
+  <div id="screen-personal" class="screen">
+    <div class="screen-header">
+      <button class="btn-back" data-screen="screen-home">← 홈</button>
+    </div>
+    <div class="home-hero" style="margin-bottom:0.5rem;">
+      <h1>개인 연습</h1>
+    </div>
+    <div class="home-cards">
+      <div class="home-card" data-screen="screen-solo">
+        <div class="home-card-icon">🥁</div>
+        <div class="home-card-text">
+          <div class="home-card-title">개인 메트로놈</div>
+          <div class="home-card-desc">혼자 쓰는 메트로놈<br>인터넷 없이도 사용 가능</div>
+        </div>
+      </div>
+      <div class="home-card" onclick="openDiary()">
+        <div class="home-card-icon">📓</div>
+        <div class="home-card-text">
+          <div class="home-card-title">개인 일지</div>
+          <div class="home-card-desc">나만의 연습 기록 관리<br>Google 로그인으로 기기 간 동기화</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="screen-login" class="screen">
+    <div class="screen-header">
+      <button class="btn-back" data-screen="screen-personal">← 개인 연습</button>
+    </div>
+    <div class="login-wrap">
+      <div class="login-icon">📓</div>
+      <div class="login-title">개인 일지</div>
+      <div class="login-desc">Google 계정으로 로그인하면<br>어떤 기기에서도 일지를 확인할 수 있어요</div>
       <button class="btn-google" onclick="loginWithGoogle()">
-        <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
         Google로 로그인
       </button>
     </div>
   </div>
 
-  <!-- 로비 -->
+  <!-- DIARY LIST -->
+  <div id="screen-diary-list" class="screen">
+    <div class="diary-header">
+      <div class="diary-header-left">
+        <button class="btn-back" data-screen="screen-personal">← 개인 연습</button>
+        <span class="diary-user" id="diary-user-name"></span>
+      </div>
+      <button class="btn-logout" onclick="logoutUser()">로그아웃</button>
+    </div>
+    <div class="diary-list" id="diary-list-container">
+      <div class="diary-empty">불러오는 중...</div>
+    </div>
+    <button class="btn-new-diary" onclick="openNewDiary()">+ 새 일지</button>
+  </div>
+
+  <!-- DIARY EDIT -->
+  <div id="screen-diary-edit" class="screen">
+    <div class="diary-form-header">
+      <button class="btn-back" onclick="showScreen('screen-diary-list')">← 목록</button>
+      <div class="diary-form-actions">
+        <button class="btn-delete-diary" id="btn-delete-diary" onclick="deleteDiary()" style="display:none">삭제</button>
+        <button class="btn-save-diary" onclick="saveDiary()">저장</button>
+      </div>
+    </div>
+    <div class="diary-form">
+      <div>
+        <label>연습 날짜</label>
+        <input type="date" id="diary-date">
+      </div>
+      <div>
+        <label>연습 시간</label>
+        <input type="time" id="diary-time">
+      </div>
+      <div>
+        <label>연습곡</label>
+        <input type="text" id="diary-song" placeholder="예: 밤양갱, 자유곡 등" maxlength="50">
+      </div>
+      <div>
+        <label>메모</label>
+        <textarea id="diary-memo" placeholder="오늘 연습 내용을 자유롭게 적어보세요" maxlength="1000" oninput="updateCharCount()"></textarea>
+        <div class="char-count"><span id="char-count">0</span> / 1000</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOBBY -->
   <div id="screen-lobby" class="screen">
-    <div class="lobby-hero">
-      <h1>함께 맞추는<br><span>완벽한 박자</span></h1>
-      <p>밴드 멤버 모두가 같은 박자로</p>
+    <div class="lobby-hero" style="display:flex;align-items:center;gap:0.8rem;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border);padding-top:0;">
+      <button class="btn-back" data-screen="screen-home">← 홈</button>
+      <h1 style="font-size:1.1rem;font-weight:900;">팀 연습</h1>
     </div>
     <div class="input-group" style="margin-bottom:1.5rem;">
       <label>닉네임</label>
@@ -232,7 +395,7 @@
     </div>
   </div>
 
-  <!-- 방 -->
+  <!-- ROOM -->
   <div id="screen-room" class="screen">
     <div class="room-header">
       <div>
@@ -242,16 +405,9 @@
       <div id="display-role-badge" class="role-badge role-host">방장</div>
     </div>
 
-    <div id="host-panel">
-      <div class="setlist-box">
-        <div class="setlist-header"><div class="setlist-title">🎵 셋리스트</div></div>
-        <div class="setlist-add-form">
-          <input type="text" id="input-song-name" placeholder="곡 이름" maxlength="30">
-          <input type="text" id="input-song-bpm" placeholder="BPM" maxlength="3" class="bpm-input" inputmode="numeric">
-          <button class="btn-add-song" onclick="addSong()">+ 추가</button>
-        </div>
-        <div class="setlist-list" id="setlist-list"><div class="setlist-empty">곡을 추가해보세요!</div></div>
-      </div>
+    <div class="status-bar">
+      <div id="status-dot" class="status-dot"></div>
+      <span id="status-text">대기 중...</span>
     </div>
 
     <div class="beat-display">
@@ -263,9 +419,26 @@
       <div class="beat-dots" id="beat-dots"></div>
     </div>
 
-    <div id="host-controls">
+    <!-- 방장 전용 -->
+    <div id="host-panel">
+      <div class="setlist-box">
+        <div class="setlist-header">
+          <div class="setlist-title">🎵 셋리스트</div>
+        </div>
+        <div class="setlist-add-form">
+          <input type="text" id="input-song-name" placeholder="곡 이름" maxlength="30">
+          <input type="text" id="input-song-bpm" placeholder="BPM" maxlength="3" class="bpm-input" inputmode="numeric">
+          <button class="btn-add-song" onclick="addSong()">+ 추가</button>
+        </div>
+        <div class="setlist-list" id="setlist-list">
+          <div class="setlist-empty">곡을 추가해보세요!</div>
+        </div>
+      </div>
       <div class="control-box">
-        <div class="ctrl-top"><div class="ctrl-label">템포</div><div class="ctrl-readout accent" id="bpm-readout">120 BPM</div></div>
+        <div class="ctrl-top">
+          <div class="ctrl-label">템포</div>
+          <div class="ctrl-readout accent" id="bpm-readout">120 BPM</div>
+        </div>
         <div class="btn-row">
           <button class="ctrl-btn" onclick="changeBpm(-5)">−5</button>
           <button class="ctrl-btn" onclick="changeBpm(-1)">−</button>
@@ -287,8 +460,12 @@
       <button class="btn-stop" onclick="stopMetronome()">■ 정지</button>
     </div>
 
+    <!-- 멤버 전용 -->
     <div id="member-panel" style="display:none">
-      <div class="member-notice"><div class="notice-icon">🎧</div>이어폰 꽂고 기다리세요!<br>방장이 시작하면 자동으로 동기화돼요.</div>
+      <div class="member-notice">
+        <div class="notice-icon">🎧</div>
+        이어폰 꽂고 기다리세요!<br>방장이 시작하면 자동으로 동기화돼요.
+      </div>
       <div class="current-song-display" id="current-song-display">
         <div class="csd-label">현재 곡</div>
         <div class="csd-name" id="csd-name">—</div>
@@ -296,8 +473,12 @@
       </div>
     </div>
 
+    <!-- 딜레이 (모두) -->
     <div class="control-box">
-      <div class="ctrl-top"><div class="ctrl-label">내 딜레이 조절</div><div class="ctrl-readout muted" id="offset-readout">0 ms</div></div>
+      <div class="ctrl-top">
+        <div class="ctrl-label">내 딜레이 조절</div>
+        <div class="ctrl-readout muted" id="offset-readout">0 ms</div>
+      </div>
       <div class="btn-row">
         <button class="ctrl-btn" onclick="changeOffset(-10)">−10</button>
         <button class="ctrl-btn" onclick="changeOffset(-1)">−1</button>
@@ -315,353 +496,760 @@
       <div class="members-list" id="members-list"></div>
     </div>
 
-    <!-- 연습 기록 -->
-    <div class="record-box">
-      <div class="record-box-title">📝 연습 기록 남기기</div>
-      <textarea class="record-textarea" id="record-memo" placeholder="오늘 연습 메모를 남겨보세요 (예: 봄날 브릿지 구간 집중 연습, 템포 업 성공!)" maxlength="500" oninput="updateCharCount()"></textarea>
-      <div class="record-char-count"><span id="char-count">0</span> / 500</div>
-      <button class="btn-save-record" onclick="saveRecord()">기록 저장</button>
-    </div>
-
-    <div class="records-section">
-      <div class="records-section-title">📋 내 연습 기록</div>
-      <div id="records-list"><div class="records-empty">아직 기록이 없어요</div></div>
-    </div>
-
     <button class="btn-leave" onclick="leaveRoom()">← 나가기</button>
   </div>
+
+
+  <!-- SOLO METRO -->
+  <div id="screen-solo" class="screen">
+    <div class="solo-header">
+      <button class="btn-back" data-screen="screen-personal">← 개인 연습</button>
+      <div class="solo-title">개인 메트로놈</div>
+    </div>
+
+    <div class="beat-display">
+      <div class="beat-circle" id="solo-beat-circle">
+        <div class="bpm-big" id="solo-bpm-display">120</div>
+        <div class="bpm-label">BPM</div>
+      </div>
+      <div class="beat-dots" id="solo-beat-dots"></div>
+    </div>
+
+    <div class="control-box">
+      <div class="ctrl-top">
+        <div class="ctrl-label">템포</div>
+        <div class="ctrl-readout accent" id="solo-bpm-readout">120 BPM</div>
+      </div>
+      <div class="btn-row">
+        <button class="ctrl-btn" onclick="soloChangeBpm(-5)">−5</button>
+        <button class="ctrl-btn" onclick="soloChangeBpm(-1)">−</button>
+        <input type="range" id="solo-bpm-slider" min="40" max="240" value="120" oninput="soloSetBpmSlider(this.value)">
+        <button class="ctrl-btn" onclick="soloChangeBpm(1)">+</button>
+        <button class="ctrl-btn" onclick="soloChangeBpm(5)">+5</button>
+      </div>
+    </div>
+
+    <div class="time-sig-row">
+      <div class="ts-label">박자</div>
+      <div class="ts-btns">
+        <button class="ts-btn active" onclick="soloSetTimeSig(4)" id="solo-ts-4">4/4</button>
+        <button class="ts-btn" onclick="soloSetTimeSig(3)" id="solo-ts-3">3/4</button>
+        <button class="ts-btn" onclick="soloSetTimeSig(6)" id="solo-ts-6">6/8</button>
+        <button class="ts-btn" onclick="soloSetTimeSig(2)" id="solo-ts-2">2/4</button>
+      </div>
+    </div>
+
+    <button class="btn-start" id="solo-btn-start" onclick="soloToggle()">▶ 시작</button>
+  </div>
+
 </div>
 
 <div class="countdown-overlay" id="countdown-overlay">
   <div class="countdown-song" id="countdown-song"></div>
   <div class="countdown-num" id="countdown-num">3</div>
 </div>
-<div class="toast" id="toast">복사됨!</div>
+<div class="toast" id="toast"></div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, set, get, update, onValue, remove, serverTimestamp, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-app-compat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-database-compat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-auth-compat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-firestore-compat.min.js"></script>
+<script>
 
 const firebaseConfig = {
-  apiKey:"AIzaSyAjExOj4c1VfxRpmrCWOMR69WCX7sr6HeI",
-  authDomain:"band-click.firebaseapp.com",
-  projectId:"band-click",
-  storageBucket:"band-click.firebasestorage.app",
-  messagingSenderId:"270186166321",
-  appId:"1:270186166321:web:3b238b9c4ab43b56ddbd10",
-  databaseURL:"https://band-click-default-rtdb.asia-southeast1.firebasedatabase.app"
+  apiKey: "AIzaSyAjExOj4c1VfxRpmrCWOMR69WCX7sr6HeI",
+  authDomain: "band-click.firebaseapp.com",
+  projectId: "band-click",
+  storageBucket: "band-click.firebasestorage.app",
+  messagingSenderId: "270186166321",
+  appId: "1:270186166321:web:3b238b9c4ab43b56ddbd10",
+  databaseURL: "https://band-click-default-rtdb.asia-southeast1.firebasedatabase.app"
 };
 
-const fbApp = initializeApp(firebaseConfig);
-const db = getDatabase(fbApp);
-const auth = getAuth(fbApp);
-const provider = new GoogleAuthProvider();
+const fbApp = firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const auth = firebase.auth();
+const fsdb = firebase.firestore();
+let currentUser = null;
+
+// Firebase compat SDK helpers
+function ref(path) { return db.ref(path); }
+function set(r, v) { return r.set(v); }
+function get(r) { return r.get(); }
+function update(r, v) { return r.update(v); }
+function remove(r) { return r.remove(); }
+function onValue(r, cb, opts) {
+  if (opts && opts.onlyOnce) { r.once('value').then(cb); return () => {}; }
+  const unsub = r.on('value', cb);
+  return () => r.off('value', unsub);
+}
+function serverTimestamp() { return firebase.database.ServerValue.TIMESTAMP; }
 
 const S = {
-  myId:Math.random().toString(36).slice(2,10),
-  myName:'',isHost:false,roomCode:'',
-  bpm:120,timeSig:4,isPlaying:false,currentBeat:0,
-  audioCtx:null,nextBeatTime:0,schedulerTimer:null,beatFlashTimer:null,
-  roomRef:null,unsubscribe:null,serverTimeOffset:0,userOffsetMs:0,
-  prevStartAt:null,prevIsPlaying:false,setlist:[],activeSongId:null,
-  currentUser:null,
+  myId: Math.random().toString(36).slice(2, 10),
+  myName: '', isHost: false, roomCode: '',
+  bpm: 120, timeSig: 4,
+  isPlaying: false, currentBeat: 0,
+  audioCtx: null, nextBeatTime: 0,
+  schedulerTimer: null, beatFlashTimer: null,
+  roomRef: null, unsubscribe: null,
+  serverTimeOffset: 0, userOffsetMs: 0,
+  prevStartAt: null, prevIsPlaying: false,
+  setlist: [], activeSongId: null,
 };
 
-// 로그인
-window.loginWithGoogle = async function() {
-  try { await signInWithPopup(auth, provider); }
-  catch(e) { alert('로그인 실패: ' + e.message); }
-}
-window.logout = async function() {
-  if (S.roomCode) await leaveRoomCleanup();
-  await signOut(auth);
+async function syncServerTime() {
+  const syncEl = document.getElementById('sync-status');
+  if (syncEl) { syncEl.textContent = '⏱ 서버 시간 측정 중...'; syncEl.className = 'sync-status measuring'; }
+  const samples = [];
+  for (let i = 0; i < 5; i++) {
+    await new Promise(resolve => {
+      onValue(ref('.info/serverTimeOffset'), snap => { samples.push(snap.val() || 0); resolve(); }, { onlyOnce: true });
+    });
+    if (i < 4) await new Promise(r => setTimeout(r, 150));
+  }
+  samples.sort((a, b) => a - b);
+  const mid = samples.slice(1, 4);
+  S.serverTimeOffset = mid.reduce((a, b) => a + b, 0) / mid.length;
+  if (syncEl) { syncEl.textContent = '✓ 서버 동기화 완료'; syncEl.className = 'sync-status good'; }
 }
 
-onAuthStateChanged(auth, user => {
-  S.currentUser = user;
-  if (user) {
-    document.getElementById('header-user').style.display = 'flex';
-    const avatar = document.getElementById('user-avatar');
-    if (user.photoURL) avatar.innerHTML = `<img src="${user.photoURL}">`;
-    else avatar.textContent = (user.displayName||'?')[0];
-    document.getElementById('user-name-small').textContent = user.displayName || user.email;
-    const ni = document.getElementById('input-name');
-    if (ni && !ni.value) ni.value = user.displayName || '';
-    showScreen('screen-lobby');
-  } else {
-    document.getElementById('header-user').style.display = 'none';
-    showScreen('screen-login');
+function serverNow() { return Date.now() + S.serverTimeOffset; }
+
+function getAudioCtx() {
+  if (!S.audioCtx) S.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return S.audioCtx;
+}
+
+function scheduleClick(time, isDownbeat) {
+  const ctx = getAudioCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.frequency.value = isDownbeat ? 1800 : 1000;
+  gain.gain.setValueAtTime(isDownbeat ? 0.7 : 0.4, time);
+  gain.gain.exponentialRampToValueAtTime(0.001, time + 0.05);
+  osc.start(time); osc.stop(time + 0.06);
+}
+
+function scheduler() {
+  if (!S.isPlaying) return;
+  const ctx = getAudioCtx();
+  while (S.nextBeatTime < ctx.currentTime + 0.1) {
+    const beat = S.currentBeat % S.timeSig;
+    scheduleClick(S.nextBeatTime, beat === 0);
+    const delay = (S.nextBeatTime - ctx.currentTime) * 1000;
+    const b = beat;
+    setTimeout(() => flashBeat(b), Math.max(0, delay));
+    S.nextBeatTime += 60 / S.bpm;
+    S.currentBeat++;
   }
-});
+}
+
+function flashBeat(beat) {
+  const circle = document.getElementById('beat-circle');
+  const dots = document.querySelectorAll('.beat-dot');
+  circle.classList.add('beat-on');
+  if (beat === 0) circle.classList.add('downbeat');
+  dots.forEach((d, i) => {
+    d.classList.remove('active','downbeat');
+    if (i === beat) { d.classList.add('active'); if (beat === 0) d.classList.add('downbeat'); }
+  });
+  clearTimeout(S.beatFlashTimer);
+  S.beatFlashTimer = setTimeout(() => circle.classList.remove('beat-on','downbeat'), 80);
+}
+
+function startScheduler() { S.schedulerTimer = setInterval(scheduler, 25); }
+function stopScheduler() {
+  clearInterval(S.schedulerTimer); S.schedulerTimer = null;
+  document.getElementById('beat-circle').classList.remove('beat-on','downbeat');
+  document.querySelectorAll('.beat-dot').forEach(d => d.classList.remove('active','downbeat'));
+}
+
+async function doCountdownAndStart(startAt) {
+  const ctx = getAudioCtx();
+  await ctx.resume();
+  const adjustedStartAt = startAt - S.userOffsetMs;
+  if (adjustedStartAt - serverNow() < -500) return;
+
+  setStatus('countdown', '카운트다운...');
+  const overlay = document.getElementById('countdown-overlay');
+  const numEl = document.getElementById('countdown-num');
+  const songEl = document.getElementById('countdown-song');
+  const activeSong = S.setlist.find(s => s.id === S.activeSongId);
+  songEl.textContent = activeSong ? activeSong.name : '';
+  overlay.classList.add('show');
+
+  let count = 3;
+  numEl.textContent = count;
+  numEl.style.animation = 'none'; void numEl.offsetHeight; numEl.style.animation = 'countScale 0.85s ease-out';
+
+  const tick = setInterval(() => {
+    count--;
+    if (count <= 0) {
+      clearInterval(tick);
+      overlay.classList.remove('show');
+      setStatus('running', activeSong ? `▶ ${activeSong.name}` : '재생 중');
+    } else {
+      numEl.textContent = count;
+      numEl.style.animation = 'none'; void numEl.offsetHeight; numEl.style.animation = 'countScale 0.85s ease-out';
+    }
+  }, 1000);
+
+  await new Promise(r => setTimeout(r, Math.max(0, adjustedStartAt - serverNow() - 30)));
+  S.nextBeatTime = getAudioCtx().currentTime + Math.max(0, (adjustedStartAt - serverNow()) / 1000);
+  S.currentBeat = 0; S.isPlaying = true;
+  startScheduler();
+}
+
+function stopNow() { S.isPlaying = false; stopScheduler(); setStatus('', '정지됨'); }
+
+function generateCode() { return Math.random().toString(36).slice(2, 8).toUpperCase(); }
+
+function applyHostUI() {
+  S.isHost = true;
+  document.getElementById('display-role-badge').textContent = '방장';
+  document.getElementById('display-role-badge').className = 'role-badge role-host';
+  document.getElementById('host-panel').style.display = 'block';
+  document.getElementById('member-panel').style.display = 'none';
+}
+
+function applyMemberUI() {
+  S.isHost = false;
+  document.getElementById('display-role-badge').textContent = '멤버';
+  document.getElementById('display-role-badge').className = 'role-badge role-member';
+  document.getElementById('host-panel').style.display = 'none';
+  document.getElementById('member-panel').style.display = 'block';
+}
+
+async function createRoom() {
+  const name = document.getElementById('input-name').value.trim();
+  const roomName = document.getElementById('input-room-name').value.trim();
+  if (!name) { alert('닉네임을 입력하세요!'); return; }
+  if (!roomName) { alert('방 이름을 입력하세요!'); return; }
+  const code = generateCode();
+  S.myName = name; S.isHost = true; S.roomCode = code;
+  await set(ref('rooms/' + code), { name: roomName, bpm: 120, timeSig: 4, isPlaying: false, startAt: null, setlist: [], activeSongId: null, createdAt: serverTimestamp() });
+  await set(ref(`rooms/${code}/members/${S.myId}`), { name, isHost: true, joinedAt: serverTimestamp() });
+  enterRoom(code, roomName, true);
+  syncServerTime();
+}
+
+async function joinRoom() {
+  const name = document.getElementById('input-name').value.trim();
+  const code = document.getElementById('input-room-code').value.trim().toUpperCase();
+  if (!name) { alert('닉네임을 입력하세요!'); return; }
+  if (!code) { alert('방 코드를 입력하세요!'); return; }
+  const snap = await get(ref('rooms/' + code));
+  if (!snap.exists()) { alert('방을 찾을 수 없어요!'); return; }
+  const data = snap.val();
+  S.myName = name; S.isHost = false; S.roomCode = code;
+  await set(ref(`rooms/${code}/members/${S.myId}`), { name, isHost: false, joinedAt: serverTimestamp() });
+  enterRoom(code, data.name, false);
+  syncServerTime();
+}
 
 function showScreen(id) {
+  if (typeof soloStop === 'function' && id !== 'screen-solo') soloStop();
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-// 서버 시간
-async function syncServerTime() {
-  const el = document.getElementById('sync-status');
-  if(el){el.textContent='⏱ 서버 시간 측정 중...';el.className='sync-status measuring';}
-  const samples=[];
-  for(let i=0;i<5;i++){
-    await new Promise(r=>{onValue(ref(db,'.info/serverTimeOffset'),s=>{samples.push(s.val()||0);r();},{onlyOnce:true});});
-    if(i<4) await new Promise(r=>setTimeout(r,150));
-  }
-  samples.sort((a,b)=>a-b);
-  S.serverTimeOffset=samples.slice(1,4).reduce((a,b)=>a+b,0)/3;
-  if(el){el.textContent='✓ 서버 동기화 완료';el.className='sync-status good';}
-}
-function serverNow(){return Date.now()+S.serverTimeOffset;}
-
-// 오디오
-function getAudioCtx(){if(!S.audioCtx)S.audioCtx=new(window.AudioContext||window.webkitAudioContext)();return S.audioCtx;}
-function scheduleClick(time,isDown){
-  const ctx=getAudioCtx(),osc=ctx.createOscillator(),gain=ctx.createGain();
-  osc.connect(gain);gain.connect(ctx.destination);
-  osc.frequency.value=isDown?1800:1000;
-  gain.gain.setValueAtTime(isDown?0.7:0.4,time);
-  gain.gain.exponentialRampToValueAtTime(0.001,time+0.05);
-  osc.start(time);osc.stop(time+0.06);
-}
-function scheduler(){
-  if(!S.isPlaying)return;
-  const ctx=getAudioCtx();
-  while(S.nextBeatTime<ctx.currentTime+0.1){
-    const beat=S.currentBeat%S.timeSig;
-    scheduleClick(S.nextBeatTime,beat===0);
-    const delay=(S.nextBeatTime-ctx.currentTime)*1000,b=beat;
-    setTimeout(()=>flashBeat(b),Math.max(0,delay));
-    S.nextBeatTime+=60/S.bpm;S.currentBeat++;
-  }
-}
-function flashBeat(beat){
-  const circle=document.getElementById('beat-circle'),dots=document.querySelectorAll('.beat-dot');
-  circle.classList.add('beat-on');if(beat===0)circle.classList.add('downbeat');
-  dots.forEach((d,i)=>{d.classList.remove('active','downbeat');if(i===beat){d.classList.add('active');if(beat===0)d.classList.add('downbeat');}});
-  clearTimeout(S.beatFlashTimer);S.beatFlashTimer=setTimeout(()=>circle.classList.remove('beat-on','downbeat'),80);
-}
-function startScheduler(){S.schedulerTimer=setInterval(scheduler,25);}
-function stopScheduler(){
-  clearInterval(S.schedulerTimer);S.schedulerTimer=null;
-  document.getElementById('beat-circle').classList.remove('beat-on','downbeat');
-  document.querySelectorAll('.beat-dot').forEach(d=>d.classList.remove('active','downbeat'));
-}
-async function doCountdownAndStart(startAt){
-  const ctx=getAudioCtx();await ctx.resume();
-  const adj=startAt-S.userOffsetMs;
-  if(adj-serverNow()<-500)return;
-  const overlay=document.getElementById('countdown-overlay'),numEl=document.getElementById('countdown-num'),songEl=document.getElementById('countdown-song');
-  const activeSong=S.setlist.find(s=>s.id===S.activeSongId);
-  songEl.textContent=activeSong?activeSong.name:'';
-  overlay.classList.add('show');
-  let count=Math.ceil((startAt-serverNow())/1000);
-  numEl.textContent=count;numEl.style.animation='none';void numEl.offsetHeight;numEl.style.animation='countScale 0.85s ease-out';
-  const tick=setInterval(()=>{
-    count--;
-    if(count<=0){clearInterval(tick);overlay.classList.remove('show');}
-    else{numEl.textContent=count;numEl.style.animation='none';void numEl.offsetHeight;numEl.style.animation='countScale 0.85s ease-out';}
-  },1000);
-  await new Promise(r=>setTimeout(r,Math.max(0,adj-serverNow()-30)));
-  S.nextBeatTime=getAudioCtx().currentTime+Math.max(0,(adj-serverNow())/1000);
-  S.currentBeat=0;S.isPlaying=true;startScheduler();
-}
-function stopNow(){S.isPlaying=false;stopScheduler();}
-
-// 연습 기록
-window.updateCharCount=function(){document.getElementById('char-count').textContent=document.getElementById('record-memo').value.length;}
-window.saveRecord=async function(){
-  if(!S.currentUser)return;
-  const memo=document.getElementById('record-memo').value.trim();
-  if(!memo){alert('메모를 입력하세요!');return;}
-  const activeSong=S.setlist.find(s=>s.id===S.activeSongId);
-  await push(ref(db,`users/${S.currentUser.uid}/records`),{
-    memo,bpm:S.bpm,
-    songName:activeSong?activeSong.name:null,
-    roomName:document.getElementById('display-room-name').textContent,
-    createdAt:Date.now()
-  });
-  document.getElementById('record-memo').value='';
-  document.getElementById('char-count').textContent='0';
-  showToast('기록 저장됨!');loadRecords();
-}
-async function loadRecords(){
-  if(!S.currentUser)return;
-  const snap=await get(ref(db,`users/${S.currentUser.uid}/records`));
-  const list=document.getElementById('records-list');
-  if(!snap.exists()){list.innerHTML='<div class="records-empty">아직 기록이 없어요</div>';return;}
-  const records=[];
-  snap.forEach(c=>records.push({id:c.key,...c.val()}));
-  records.sort((a,b)=>b.createdAt-a.createdAt);
-  list.innerHTML=records.map(r=>{
-    const d=new Date(r.createdAt);
-    const ds=`${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
-    return `<div class="record-item">
-      <div class="record-item-header">
-        <div class="record-item-date">${ds} · ${r.roomName||''}</div>
-        <div style="display:flex;align-items:center;gap:0.4rem">
-          <div class="record-item-bpm">${r.bpm} BPM</div>
-          <button class="btn-del-record" onclick="deleteRecord('${r.id}')">✕</button>
-        </div>
-      </div>
-      ${r.songName?`<div class="record-item-song">🎵 ${r.songName}</div>`:''}
-      <div class="record-item-memo">${r.memo}</div>
-    </div>`;
-  }).join('');
-}
-window.deleteRecord=async function(id){
-  if(!S.currentUser)return;
-  await remove(ref(db,`users/${S.currentUser.uid}/records/${id}`));
-  loadRecords();
-}
-
-// 방 생성/참가
-function generateCode(){return Math.random().toString(36).slice(2,8).toUpperCase();}
-window.createRoom=async function(){
-  const name=document.getElementById('input-name').value.trim();
-  const roomName=document.getElementById('input-room-name').value.trim();
-  if(!name){alert('닉네임을 입력하세요!');return;}
-  if(!roomName){alert('방 이름을 입력하세요!');return;}
-  const code=generateCode();
-  S.myName=name;S.isHost=true;S.roomCode=code;
-  await set(ref(db,'rooms/'+code),{name:roomName,bpm:120,timeSig:4,isPlaying:false,startAt:null,setlist:[],activeSongId:null,createdAt:serverTimestamp()});
-  await set(ref(db,`rooms/${code}/members/${S.myId}`),{name,isHost:true,joinedAt:serverTimestamp()});
-  enterRoom(code,roomName,true);syncServerTime();
-}
-window.joinRoom=async function(){
-  const name=document.getElementById('input-name').value.trim();
-  const code=document.getElementById('input-room-code').value.trim().toUpperCase();
-  if(!name){alert('닉네임을 입력하세요!');return;}
-  if(!code){alert('방 코드를 입력하세요!');return;}
-  const snap=await get(ref(db,'rooms/'+code));
-  if(!snap.exists()){alert('방을 찾을 수 없어요!');return;}
-  const data=snap.val();
-  S.myName=name;S.isHost=false;S.roomCode=code;
-  await set(ref(db,`rooms/${code}/members/${S.myId}`),{name,isHost:false,joinedAt:serverTimestamp()});
-  enterRoom(code,data.name,false);syncServerTime();
-}
-function enterRoom(code,roomName,isHost){
+function enterRoom(code, roomName, isHost) {
   showScreen('screen-room');
-  document.getElementById('display-room-name').textContent=roomName;
-  document.getElementById('display-room-code').textContent=code;
-  document.getElementById('display-role-badge').textContent=isHost?'방장':'멤버';
-  document.getElementById('display-role-badge').className='role-badge '+(isHost?'role-host':'role-member');
-  document.getElementById('host-panel').style.display=isHost?'block':'none';
-  document.getElementById('host-controls').style.display=isHost?'block':'none';
-  document.getElementById('member-panel').style.display=isHost?'none':'block';
-  renderBeatDots(4);loadRecords();
-  S.roomRef=ref(db,'rooms/'+code);S.prevStartAt=null;S.prevIsPlaying=false;
-  S.unsubscribe=onValue(S.roomRef,snap=>{
-    if(!snap.exists())return;
-    const d=snap.val();
-    if(d.bpm&&d.bpm!==S.bpm){S.bpm=d.bpm;document.getElementById('bpm-display').textContent=d.bpm;document.getElementById('bpm-readout').textContent=d.bpm+' BPM';const sl=document.getElementById('bpm-slider');if(sl)sl.value=d.bpm;}
-    if(d.timeSig&&d.timeSig!==S.timeSig){S.timeSig=d.timeSig;renderBeatDots(d.timeSig);document.querySelectorAll('.ts-btn').forEach(b=>b.classList.remove('active'));const btn=document.getElementById('ts-'+d.timeSig);if(btn)btn.classList.add('active');}
-    if(d.setlist!==undefined){S.setlist=Array.isArray(d.setlist)?d.setlist:Object.values(d.setlist||{});renderSetlist();}
-    if(d.activeSongId!==undefined&&d.activeSongId!==S.activeSongId){
-      S.activeSongId=d.activeSongId;
-      const song=S.setlist.find(s=>s.id===d.activeSongId);
-      document.getElementById('current-song-name').textContent=song?song.name:'';
-      const csd=document.getElementById('current-song-display');
-      if(csd){if(song){csd.classList.add('visible');document.getElementById('csd-name').textContent=song.name;document.getElementById('csd-bpm').textContent=song.bpm+' BPM';}else csd.classList.remove('visible');}
+  document.getElementById('display-room-name').textContent = roomName;
+  document.getElementById('display-room-code').textContent = code;
+  isHost ? applyHostUI() : applyMemberUI();
+
+  S.roomRef = ref('rooms/' + code);
+  S.prevStartAt = null; S.prevIsPlaying = false;
+
+  S.unsubscribe = onValue(S.roomRef, snap => {
+    if (!snap.exists()) {
+      // 방 삭제됨 → 로비로
+      stopNow();
+      document.getElementById('screen-room').classList.remove('active');
+      showScreen('screen-home');
+      showToast('방장이 방을 종료했어요');
+      return;
+    }
+    const d = snap.val();
+    if (d.bpm && d.bpm !== S.bpm) {
+      S.bpm = d.bpm;
+      document.getElementById('bpm-display').textContent = d.bpm;
+      document.getElementById('bpm-readout').textContent = d.bpm + ' BPM';
+      const sl = document.getElementById('bpm-slider'); if (sl) sl.value = d.bpm;
+    }
+    if (d.timeSig && d.timeSig !== S.timeSig) {
+      S.timeSig = d.timeSig; renderBeatDots(d.timeSig);
+      document.querySelectorAll('.ts-btn').forEach(b => b.classList.remove('active'));
+      const btn = document.getElementById('ts-' + d.timeSig); if (btn) btn.classList.add('active');
+    }
+    if (d.setlist !== undefined) {
+      S.setlist = Array.isArray(d.setlist) ? d.setlist : Object.values(d.setlist || {});
       renderSetlist();
     }
-    if(d.members)renderMembers(d.members);
-    if(!isHost&&d.isPlaying&&d.startAt&&d.startAt!==S.prevStartAt&&!S.isPlaying){S.prevStartAt=d.startAt;doCountdownAndStart(d.startAt);}
-    if(!isHost&&!d.isPlaying&&S.prevIsPlaying&&S.isPlaying)stopNow();
-    S.prevIsPlaying=d.isPlaying;
+    if (d.activeSongId !== undefined && d.activeSongId !== S.activeSongId) {
+      S.activeSongId = d.activeSongId;
+      const song = S.setlist.find(s => s.id === d.activeSongId);
+      document.getElementById('current-song-name').textContent = song ? song.name : '';
+      const csd = document.getElementById('current-song-display');
+      if (csd) {
+        if (song) { csd.classList.add('visible'); document.getElementById('csd-name').textContent = song.name; document.getElementById('csd-bpm').textContent = song.bpm + ' BPM'; }
+        else csd.classList.remove('visible');
+      }
+      renderSetlist();
+    }
+    if (d.members) renderMembers(d.members);
+
+    // 내가 새 방장이 됐는지 감지
+    if (!S.isHost && d.members && d.members[S.myId] && d.members[S.myId].isHost) {
+      applyHostUI();
+      showToast('방장이 됐어요! 👑');
+      if (d.members) renderMembers(d.members);
+    }
+
+    if (!S.isHost && d.isPlaying && d.startAt && d.startAt !== S.prevStartAt && !S.isPlaying) { S.prevStartAt = d.startAt; doCountdownAndStart(d.startAt); }
+    if (!S.isHost && !d.isPlaying && S.prevIsPlaying && S.isPlaying) stopNow();
+    S.prevIsPlaying = d.isPlaying;
   });
 }
-window.addSong=function(){
-  const ne=document.getElementById('input-song-name'),be=document.getElementById('input-song-bpm');
-  const name=ne.value.trim(),bpm=parseInt(be.value);
-  if(!name){alert('곡 이름을 입력하세요!');return;}
-  if(!bpm||bpm<40||bpm>240){alert('BPM을 40~240 사이로 입력하세요!');return;}
-  S.setlist.push({id:Date.now().toString(),name,bpm});ne.value='';be.value='';
-  if(S.roomRef)update(S.roomRef,{setlist:S.setlist});renderSetlist();
+
+// ============================
+// 개인 메트로놈
+// ============================
+const Solo = {
+  bpm: 120, timeSig: 4, isPlaying: false,
+  currentBeat: 0, audioCtx: null,
+  nextBeatTime: 0, schedulerTimer: null, beatFlashTimer: null,
+};
+
+function soloGetCtx() {
+  if (!Solo.audioCtx) Solo.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return Solo.audioCtx;
 }
-window.deleteSong=function(id){
-  S.setlist=S.setlist.filter(s=>s.id!==id);
-  if(S.activeSongId===id){S.activeSongId=null;document.getElementById('current-song-name').textContent='';}
-  if(S.roomRef)update(S.roomRef,{setlist:S.setlist,activeSongId:S.activeSongId});renderSetlist();
+
+function soloClick(time, isDown) {
+  const ctx = soloGetCtx();
+  const osc = ctx.createOscillator(), gain = ctx.createGain();
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.frequency.value = isDown ? 1800 : 1000;
+  gain.gain.setValueAtTime(isDown ? 0.7 : 0.4, time);
+  gain.gain.exponentialRampToValueAtTime(0.001, time + 0.05);
+  osc.start(time); osc.stop(time + 0.06);
 }
-window.selectSong=function(id){
-  const song=S.setlist.find(s=>s.id===id);if(!song)return;
-  S.activeSongId=id;S.bpm=song.bpm;
-  document.getElementById('bpm-display').textContent=song.bpm;
-  document.getElementById('bpm-readout').textContent=song.bpm+' BPM';
-  document.getElementById('bpm-slider').value=song.bpm;
-  document.getElementById('current-song-name').textContent=song.name;
-  if(S.roomRef)update(S.roomRef,{bpm:song.bpm,activeSongId:id});
-  renderSetlist();showToast(`${song.name} — ${song.bpm} BPM`);
+
+function soloScheduler() {
+  if (!Solo.isPlaying) return;
+  const ctx = soloGetCtx();
+  while (Solo.nextBeatTime < ctx.currentTime + 0.1) {
+    const beat = Solo.currentBeat % Solo.timeSig;
+    soloClick(Solo.nextBeatTime, beat === 0);
+    const delay = (Solo.nextBeatTime - ctx.currentTime) * 1000, b = beat;
+    setTimeout(() => soloFlash(b), Math.max(0, delay));
+    Solo.nextBeatTime += 60 / Solo.bpm;
+    Solo.currentBeat++;
+  }
 }
-function renderSetlist(){
-  const list=document.getElementById('setlist-list');if(!list)return;
-  if(S.setlist.length===0){list.innerHTML='<div class="setlist-empty">곡을 추가해보세요!</div>';return;}
-  list.innerHTML=S.setlist.map((song,i)=>`
-    <div class="song-item ${song.id===S.activeSongId?'active':''}" onclick="selectSong('${song.id}')">
-      <div class="song-num">${i+1}</div>
-      <div class="song-info"><div class="song-name">${song.name}</div><div class="song-bpm">${song.bpm} BPM</div></div>
-      ${song.id===S.activeSongId?'<div class="song-active-badge">선택됨</div>':''}
-      <button class="btn-del-song" onclick="event.stopPropagation();deleteSong('${song.id}')">✕</button>
-    </div>`).join('');
+
+function soloFlash(beat) {
+  const circle = document.getElementById('solo-beat-circle');
+  const dots = document.querySelectorAll('#solo-beat-dots .beat-dot');
+  circle.classList.add('beat-on');
+  if (beat === 0) circle.classList.add('downbeat');
+  dots.forEach((d, i) => {
+    d.classList.remove('active','downbeat');
+    if (i === beat) { d.classList.add('active'); if (beat === 0) d.classList.add('downbeat'); }
+  });
+  clearTimeout(Solo.beatFlashTimer);
+  Solo.beatFlashTimer = setTimeout(() => circle.classList.remove('beat-on','downbeat'), 80);
 }
-window.startMetronome=async function(){
-  if(S.isPlaying)return;
-  const startAt=serverNow()+3200;
-  await update(S.roomRef,{isPlaying:true,startAt,bpm:S.bpm,timeSig:S.timeSig});
+
+function soloStop() {
+  Solo.isPlaying = false;
+  clearInterval(Solo.schedulerTimer); Solo.schedulerTimer = null;
+  const circle = document.getElementById('solo-beat-circle');
+  if (circle) circle.classList.remove('beat-on','downbeat');
+  document.querySelectorAll('#solo-beat-dots .beat-dot').forEach(d => d.classList.remove('active','downbeat'));
+  const btn = document.getElementById('solo-btn-start');
+  if (btn) btn.textContent = '▶ 시작';
+}
+
+async function soloToggle() {
+  const ctx = soloGetCtx();
+  await ctx.resume();
+  if (Solo.isPlaying) {
+    soloStop();
+  } else {
+    Solo.isPlaying = true;
+    Solo.currentBeat = 0;
+    Solo.nextBeatTime = ctx.currentTime + 0.05;
+    Solo.schedulerTimer = setInterval(soloScheduler, 25);
+    document.getElementById('solo-btn-start').textContent = '■ 정지';
+  }
+}
+
+function soloChangeBpm(d) {
+  Solo.bpm = Math.min(240, Math.max(40, Solo.bpm + d));
+  document.getElementById('solo-bpm-display').textContent = Solo.bpm;
+  document.getElementById('solo-bpm-readout').textContent = Solo.bpm + ' BPM';
+  document.getElementById('solo-bpm-slider').value = Solo.bpm;
+}
+
+function soloSetBpmSlider(val) {
+  Solo.bpm = parseInt(val);
+  document.getElementById('solo-bpm-display').textContent = Solo.bpm;
+  document.getElementById('solo-bpm-readout').textContent = Solo.bpm + ' BPM';
+}
+
+function soloSetTimeSig(n) {
+  Solo.timeSig = n;
+  const c = document.getElementById('solo-beat-dots'); c.innerHTML = '';
+  for (let i = 0; i < n; i++) {
+    const d = document.createElement('div');
+    d.className = 'beat-dot' + (i === 0 ? ' downbeat' : '');
+    c.appendChild(d);
+  }
+  document.querySelectorAll('.ts-btn[id^="solo-ts-"]').forEach(b => b.classList.remove('active'));
+  document.getElementById('solo-ts-' + n).classList.add('active');
+}
+
+// 솔로 비트 닷 초기화
+const soloDots = document.getElementById('solo-beat-dots');
+if (soloDots) {
+  for (let i = 0; i < 4; i++) {
+    const d = document.createElement('div');
+    d.className = 'beat-dot' + (i === 0 ? ' downbeat' : '');
+    soloDots.appendChild(d);
+  }
+}
+
+renderBeatDots(4); setStatus('', '대기 중...');
+
+
+
+async function transferHost(newHostId, newHostName) {
+  if (!S.isHost) return;
+  if (!confirm(`${newHostName}님에게 방장을 넘기시겠어요?`)) return;
+  await update(ref(`rooms/${S.roomCode}/members/${S.myId}`), { isHost: false });
+  await update(ref(`rooms/${S.roomCode}/members/${newHostId}`), { isHost: true });
+  applyMemberUI();
+  showToast('방장을 넘겼어요');
+}
+
+function addSong() {
+  const nameEl = document.getElementById('input-song-name');
+  const bpmEl = document.getElementById('input-song-bpm');
+  const name = nameEl.value.trim();
+  const bpm = parseInt(bpmEl.value);
+  if (!name) { alert('곡 이름을 입력하세요!'); return; }
+  if (!bpm || bpm < 40 || bpm > 240) { alert('BPM을 40~240 사이로 입력하세요!'); return; }
+  const song = { id: Date.now().toString(), name, bpm };
+  S.setlist.push(song);
+  nameEl.value = ''; bpmEl.value = '';
+  if (S.roomRef) update(S.roomRef, { setlist: S.setlist });
+  renderSetlist();
+}
+
+function deleteSong(id) {
+  S.setlist = S.setlist.filter(s => s.id !== id);
+  if (S.activeSongId === id) { S.activeSongId = null; document.getElementById('current-song-name').textContent = ''; }
+  if (S.roomRef) update(S.roomRef, { setlist: S.setlist, activeSongId: S.activeSongId });
+  renderSetlist();
+}
+
+function selectSong(id) {
+  const song = S.setlist.find(s => s.id === id);
+  if (!song) return;
+  S.activeSongId = id; S.bpm = song.bpm;
+  document.getElementById('bpm-display').textContent = song.bpm;
+  document.getElementById('bpm-readout').textContent = song.bpm + ' BPM';
+  document.getElementById('bpm-slider').value = song.bpm;
+  document.getElementById('current-song-name').textContent = song.name;
+  if (S.roomRef) update(S.roomRef, { bpm: song.bpm, activeSongId: id });
+  renderSetlist();
+  showToast(`${song.name} — ${song.bpm} BPM`);
+}
+
+function renderSetlist() {
+  const list = document.getElementById('setlist-list');
+  if (!list) return;
+  if (S.setlist.length === 0) { list.innerHTML = '<div class="setlist-empty">곡을 추가해보세요!</div>'; return; }
+  list.innerHTML = S.setlist.map((song, i) => `
+    <div class="song-item ${song.id === S.activeSongId ? 'active' : ''}" onclick="selectSong('${song.id}')">
+      <div class="song-num">${i + 1}</div>
+      <div class="song-info">
+        <div class="song-name">${song.name}</div>
+        <div class="song-bpm">${song.bpm} BPM</div>
+      </div>
+      ${song.id === S.activeSongId ? '<div class="song-active-badge">선택됨</div>' : ''}
+      <button class="btn-del-song" onclick="event.stopPropagation(); deleteSong('${song.id}')">✕</button>
+    </div>
+  `).join('');
+}
+
+async function startMetronome() {
+  if (S.isPlaying) return;
+  const startAt = serverNow() + 4000;
+  await update(S.roomRef, { isPlaying: true, startAt, bpm: S.bpm, timeSig: S.timeSig });
   doCountdownAndStart(startAt);
 }
-window.stopMetronome=async function(){
-  await update(S.roomRef,{isPlaying:false,startAt:null});stopNow();
+
+async function stopMetronome() {
+  await update(S.roomRef, { isPlaying: false, startAt: null });
+  stopNow();
 }
-async function leaveRoomCleanup(){
-  if(S.unsubscribe)S.unsubscribe();stopNow();
-  if(S.roomCode)await remove(ref(db,`rooms/${S.roomCode}/members/${S.myId}`));
-  S.roomCode='';
+
+async function leaveRoom() {
+  if (S.unsubscribe) S.unsubscribe();
+  stopNow();
+  if (S.isHost) {
+    if (!confirm('방을 나가면 방이 삭제되고 모든 멤버가 퇴장돼요. 나가시겠어요?')) return;
+    await remove(ref(`rooms/${S.roomCode}`));
+  } else {
+    await remove(ref(`rooms/${S.roomCode}/members/${S.myId}`));
+  }
+  S.roomCode = ''; S.isHost = false;
+  document.getElementById('screen-room').classList.remove('active');
+  showScreen('screen-home');
 }
-window.leaveRoom=async function(){await leaveRoomCleanup();showScreen('screen-lobby');}
-window.changeBpm=function(d){
-  S.bpm=Math.min(240,Math.max(40,S.bpm+d));S.activeSongId=null;
-  document.getElementById('current-song-name').textContent='';
-  document.getElementById('bpm-display').textContent=S.bpm;
-  document.getElementById('bpm-readout').textContent=S.bpm+' BPM';
-  document.getElementById('bpm-slider').value=S.bpm;
-  if(S.roomRef)update(S.roomRef,{bpm:S.bpm,activeSongId:null});renderSetlist();
+
+function changeBpm(d) {
+  S.bpm = Math.min(240, Math.max(40, S.bpm + d));
+  S.activeSongId = null;
+  document.getElementById('current-song-name').textContent = '';
+  document.getElementById('bpm-display').textContent = S.bpm;
+  document.getElementById('bpm-readout').textContent = S.bpm + ' BPM';
+  document.getElementById('bpm-slider').value = S.bpm;
+  if (S.roomRef) update(S.roomRef, { bpm: S.bpm, activeSongId: null });
+  renderSetlist();
 }
-window.setBpmSlider=function(val){
-  S.bpm=parseInt(val);S.activeSongId=null;
-  document.getElementById('current-song-name').textContent='';
-  document.getElementById('bpm-display').textContent=S.bpm;
-  document.getElementById('bpm-readout').textContent=S.bpm+' BPM';
-  if(S.roomRef)update(S.roomRef,{bpm:S.bpm,activeSongId:null});renderSetlist();
+
+function setBpmSliderfunction(val) {
+  S.bpm = parseInt(val); S.activeSongId = null;
+  document.getElementById('current-song-name').textContent = '';
+  document.getElementById('bpm-display').textContent = S.bpm;
+  document.getElementById('bpm-readout').textContent = S.bpm + ' BPM';
+  if (S.roomRef) update(S.roomRef, { bpm: S.bpm, activeSongId: null });
+  renderSetlist();
 }
-window.setTimeSig=function(n){
-  S.timeSig=n;renderBeatDots(n);
-  document.querySelectorAll('.ts-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('ts-'+n).classList.add('active');
-  if(S.roomRef)update(S.roomRef,{timeSig:n});
+
+function setTimeSig(n) {
+  S.timeSig = n; renderBeatDots(n);
+  document.querySelectorAll('.ts-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('ts-' + n).classList.add('active');
+  if (S.roomRef) update(S.roomRef, { timeSig: n });
 }
-window.changeOffset=function(delta){S.userOffsetMs=Math.min(200,Math.max(-200,S.userOffsetMs+delta));updateOffsetDisplay();}
-window.setOffsetSlider=function(val){S.userOffsetMs=parseInt(val);updateOffsetDisplay();}
-function updateOffsetDisplay(){
-  const el=document.getElementById('offset-readout');
-  document.getElementById('offset-slider').value=S.userOffsetMs;
-  if(S.userOffsetMs<0){el.textContent=S.userOffsetMs+' ms';el.className='ctrl-readout blue';}
-  else if(S.userOffsetMs>0){el.textContent='+'+S.userOffsetMs+' ms';el.className='ctrl-readout orange';}
-  else{el.textContent='0 ms';el.className='ctrl-readout muted';}
+
+function changeOffset(delta) {
+  S.userOffsetMs = Math.min(200, Math.max(-200, S.userOffsetMs + delta));
+  updateOffsetDisplay();
 }
-window.copyCode=function(){navigator.clipboard.writeText(S.roomCode).catch(()=>{});showToast('코드 복사됨!');}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
-function renderBeatDots(n){
-  const c=document.getElementById('beat-dots');c.innerHTML='';
-  for(let i=0;i<n;i++){const d=document.createElement('div');d.className='beat-dot'+(i===0?' downbeat':'');c.appendChild(d);}
+function setOffsetSliderfunction(val) {
+  S.userOffsetMs = parseInt(val); updateOffsetDisplay();
 }
-function renderMembers(members){
-  const list=document.getElementById('members-list');list.innerHTML='';
-  Object.values(members).forEach(m=>{const chip=document.createElement('div');chip.className='member-chip';chip.innerHTML=`<div class="member-dot"></div>${m.name}${m.isHost?' 👑':''}`;list.appendChild(chip);});
+function updateOffsetDisplay() {
+  const el = document.getElementById('offset-readout');
+  document.getElementById('offset-slider').value = S.userOffsetMs;
+  if (S.userOffsetMs < 0) { el.textContent = S.userOffsetMs + ' ms'; el.className = 'ctrl-readout blue'; }
+  else if (S.userOffsetMs > 0) { el.textContent = '+' + S.userOffsetMs + ' ms'; el.className = 'ctrl-readout orange'; }
+  else { el.textContent = '0 ms'; el.className = 'ctrl-readout muted'; }
 }
+
+function copyCode() {
+  navigator.clipboard.writeText(S.roomCode).catch(() => {});
+  showToast('코드 복사됨!');
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+function renderBeatDots(n) {
+  const c = document.getElementById('beat-dots'); c.innerHTML = '';
+  for (let i = 0; i < n; i++) {
+    const d = document.createElement('div');
+    d.className = 'beat-dot' + (i === 0 ? ' downbeat' : '');
+    c.appendChild(d);
+  }
+}
+
+function renderMembers(members) {
+  const list = document.getElementById('members-list'); list.innerHTML = '';
+  Object.entries(members).forEach(([id, m]) => {
+    const chip = document.createElement('div');
+    chip.className = 'member-chip';
+    const transferBtn = (S.isHost && id !== S.myId && !m.isHost)
+      ? `<button class="btn-transfer" onclick="transferHost('${id}','${m.name}')">방장넘기기</button>`
+      : '';
+    chip.innerHTML = `<div class="member-dot"></div>${m.name}${m.isHost ? ' 👑' : ''}${transferBtn}`;
+    list.appendChild(chip);
+  });
+}
+
+function setStatus(type, text) {
+  document.getElementById('status-dot').className = 'status-dot ' + type;
+  document.getElementById('status-text').textContent = text;
+}
+
 renderBeatDots(4);
+
+
+document.addEventListener('click', function(e) {
+  const el = e.target.closest('[data-screen]');
+  if (!el) return;
+  if (e.target.closest('[onclick]')) return;
+  const id = el.getAttribute('data-screen');
+  if (id !== 'screen-solo' && typeof soloStop === 'function') soloStop();
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+});
+
+
+// ===========================
+// 인증 + 개인 일지
+// ===========================
+let currentDiaryId = null;
+
+auth.onAuthStateChanged(user => {
+  currentUser = user;
+});
+
+function openDiary() {
+  if (currentUser) {
+    showScreen('screen-diary-list');
+    loadDiaries();
+    document.getElementById('diary-user-name').textContent = currentUser.displayName || currentUser.email;
+  } else {
+    showScreen('screen-login');
+  }
+}
+
+async function loginWithGoogle() {
+  try {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    await auth.signInWithPopup(provider);
+    currentUser = auth.currentUser;
+    showScreen('screen-diary-list');
+    loadDiaries();
+    document.getElementById('diary-user-name').textContent = currentUser.displayName || currentUser.email;
+  } catch (e) {
+    alert('로그인 실패: ' + e.message);
+  }
+}
+
+async function logoutUser() {
+  if (!confirm('로그아웃 할까요?')) return;
+  await auth.signOut();
+  currentUser = null;
+  showScreen('screen-personal');
+}
+
+async function loadDiaries() {
+  if (!currentUser) return;
+  const container = document.getElementById('diary-list-container');
+  container.innerHTML = '<div class="diary-empty">불러오는 중...</div>';
+  try {
+    const snap = await fsdb.collection('diaries')
+      .where('uid', '==', currentUser.uid)
+      .orderBy('date', 'desc')
+      .get();
+    if (snap.empty) {
+      container.innerHTML = '<div class="diary-empty">아직 작성한 일지가 없어요 😊<br>+ 새 일지 버튼을 눌러 첫 일지를 써보세요!</div>';
+      return;
+    }
+    container.innerHTML = snap.docs.map(doc => {
+      const d = doc.data();
+      const dateStr = d.date ? d.date.replace(/-/g, '.') : '날짜 없음';
+      const timeStr = d.time ? ' ' + d.time : '';
+      return `<div class="diary-item" onclick="openEditDiary('${doc.id}')">
+        <div class="diary-item-date">${dateStr}${timeStr}</div>
+        <div class="diary-item-song">${d.song || '곡 없음'}</div>
+        <div class="diary-item-preview">${d.memo || '메모 없음'}</div>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    container.innerHTML = '<div class="diary-empty">불러오기 실패: ' + e.message + '</div>';
+  }
+}
+
+function openNewDiary() {
+  currentDiaryId = null;
+  const today = new Date().toISOString().slice(0, 10);
+  const now = new Date().toTimeString().slice(0, 5);
+  document.getElementById('diary-date').value = today;
+  document.getElementById('diary-time').value = now;
+  document.getElementById('diary-song').value = '';
+  document.getElementById('diary-memo').value = '';
+  document.getElementById('char-count').textContent = '0';
+  document.getElementById('btn-delete-diary').style.display = 'none';
+  showScreen('screen-diary-edit');
+}
+
+async function openEditDiary(id) {
+  currentDiaryId = id;
+  try {
+    const doc = await fsdb.collection('diaries').doc(id).get();
+    if (!doc.exists) { alert('일지를 찾을 수 없어요'); return; }
+    const d = doc.data();
+    document.getElementById('diary-date').value = d.date || '';
+    document.getElementById('diary-time').value = d.time || '';
+    document.getElementById('diary-song').value = d.song || '';
+    document.getElementById('diary-memo').value = d.memo || '';
+    document.getElementById('char-count').textContent = (d.memo || '').length;
+    document.getElementById('btn-delete-diary').style.display = 'inline-block';
+    showScreen('screen-diary-edit');
+  } catch (e) {
+    alert('불러오기 실패: ' + e.message);
+  }
+}
+
+async function saveDiary() {
+  if (!currentUser) return;
+  const data = {
+    uid: currentUser.uid,
+    date: document.getElementById('diary-date').value,
+    time: document.getElementById('diary-time').value,
+    song: document.getElementById('diary-song').value.trim(),
+    memo: document.getElementById('diary-memo').value.trim(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  };
+  try {
+    if (currentDiaryId) {
+      await fsdb.collection('diaries').doc(currentDiaryId).update(data);
+    } else {
+      data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+      await fsdb.collection('diaries').add(data);
+    }
+    showToast('저장했어요 ✓');
+    showScreen('screen-diary-list');
+    loadDiaries();
+  } catch (e) {
+    alert('저장 실패: ' + e.message);
+  }
+}
+
+async function deleteDiary() {
+  if (!currentDiaryId) return;
+  if (!confirm('이 일지를 삭제할까요?')) return;
+  try {
+    await fsdb.collection('diaries').doc(currentDiaryId).delete();
+    showToast('삭제했어요');
+    showScreen('screen-diary-list');
+    loadDiaries();
+  } catch (e) {
+    alert('삭제 실패: ' + e.message);
+  }
+}
+
+function updateCharCount() {
+  const len = document.getElementById('diary-memo').value.length;
+  document.getElementById('char-count').textContent = len;
+}
+
 </script>
 </body>
 </html>
