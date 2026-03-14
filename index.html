@@ -226,7 +226,7 @@
   /* 일지 작성/보기 */
   .diary-form { padding:1.5rem; display:flex; flex-direction:column; gap:1.2rem; padding-bottom:6rem; }
   .diary-form label { font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.35rem; display:block; }
-  .diary-form input[type=text], .diary-form input[type=date], .diary-form input[type=time], .diary-form textarea {
+  .diary-form input[type=text], .diary-form input[type=date], .diary-form input[type=time], .diary-form input[type=number], .diary-form textarea {
     width:100%; background:var(--surface); border:1.5px solid var(--border); border-radius:10px;
     padding:0.75rem 1rem; font-size:0.95rem; color:var(--text); font-family:'Noto Sans KR',sans-serif;
     outline:none; transition:border 0.15s;
@@ -352,7 +352,8 @@
       </div>
       <div>
         <label>연습 시간</label>
-        <input type="number" id="diary-time" placeholder="예: 2시간" maxlength="50">
+        <input type="number" id="diary-time" placeholder="예: 1.5" min="0.5" max="24" step="0.5">
+        <span style="font-size:0.75rem;color:var(--muted);margin-top:0.3rem;display:block;">시간 단위 (예: 1, 1.5, 2)</span>
       </div>
       <div>
         <label>연습곡</label>
