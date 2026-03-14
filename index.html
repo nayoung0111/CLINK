@@ -540,6 +540,20 @@
       </div>
     </div>
 
+    <div class="setlist-box">
+      <div class="setlist-header">
+        <div class="setlist-title">🎵 내 셋리스트</div>
+      </div>
+      <div class="setlist-add-form">
+        <input type="text" id="solo-input-song-name" placeholder="곡 이름" maxlength="30">
+        <input type="text" id="solo-input-song-bpm" placeholder="BPM" maxlength="3" class="bpm-input" inputmode="numeric">
+        <button class="btn-add-song" onclick="soloAddSong()">+ 추가</button>
+      </div>
+      <div class="setlist-list" id="solo-setlist-list">
+        <div class="setlist-empty">곡을 추가해보세요!</div>
+      </div>
+    </div>
+
     <button class="btn-start" id="solo-btn-start" onclick="soloToggle()">▶ 시작</button>
   </div>
 
@@ -821,6 +835,8 @@ const Solo = {
   bpm: 120, timeSig: 4, isPlaying: false,
   currentBeat: 0, audioCtx: null,
   nextBeatTime: 0, schedulerTimer: null, beatFlashTimer: null,
+  setlist: JSON.parse(localStorage.getItem('clink_solo_setlist') || '[]'),
+  activeSongId: null,
 };
 
 function soloGetCtx() {
@@ -862,6 +878,67 @@ function soloFlash(beat) {
   });
   clearTimeout(Solo.beatFlashTimer);
   Solo.beatFlashTimer = setTimeout(() => circle.classList.remove('beat-on','downbeat'), 80);
+}
+
+
+// ===========================
+// 개인 셋리스트
+// ===========================
+function soloSaveSetlist() {
+  localStorage.setItem('clink_solo_setlist', JSON.stringify(Solo.setlist));
+}
+
+function soloAddSong() {
+  const nameEl = document.getElementById('solo-input-song-name');
+  const bpmEl = document.getElementById('solo-input-song-bpm');
+  const name = nameEl.value.trim();
+  const bpm = parseInt(bpmEl.value);
+  if (!name) { alert('곡 이름을 입력하세요!'); return; }
+  if (!bpm || bpm < 40 || bpm > 240) { alert('BPM을 40~240 사이로 입력하세요!'); return; }
+  const song = { id: Date.now().toString(), name, bpm };
+  Solo.setlist.push(song);
+  nameEl.value = ''; bpmEl.value = '';
+  soloSaveSetlist();
+  soloRenderSetlist();
+}
+
+function soloDeleteSong(id) {
+  Solo.setlist = Solo.setlist.filter(s => s.id !== id);
+  if (Solo.activeSongId === id) Solo.activeSongId = null;
+  soloSaveSetlist();
+  soloRenderSetlist();
+}
+
+function soloSelectSong(id) {
+  const song = Solo.setlist.find(s => s.id === id);
+  if (!song) return;
+  Solo.activeSongId = id;
+  Solo.bpm = song.bpm;
+  document.getElementById('solo-bpm-display').textContent = song.bpm;
+  document.getElementById('solo-bpm-readout').textContent = song.bpm + ' BPM';
+  document.getElementById('solo-bpm-slider').value = song.bpm;
+  soloRenderSetlist();
+  showToast(song.name + ' — ' + song.bpm + ' BPM');
+}
+
+function soloRenderSetlist() {
+  const list = document.getElementById('solo-setlist-list');
+  if (!list) return;
+  if (Solo.setlist.length === 0) {
+    list.innerHTML = '<div class="setlist-empty">곡을 추가해보세요!</div>';
+    return;
+  }
+  list.innerHTML = Solo.setlist.map((song, i) => `
+    <div class="song-item ${song.id === Solo.activeSongId ? 'active' : ''}" onclick="soloSelectSong('${song.id}')">
+      <div class="song-num">${i + 1}</div>
+      <div class="song-info">
+        <div class="song-name">${song.name}</div>
+        <div class="song-bpm">${song.bpm} BPM</div>
+      </div>
+      ${song.id === Solo.activeSongId ? '<div class="song-active-badge">선택됨</div>' : ''}
+      <button class="btn-del-song" onclick="event.stopPropagation(); soloDeleteSong('${song.id}')">✕</button>
+    </div>
+  `).join('');
 }
 
 function soloStop() {
@@ -924,6 +1001,7 @@ if (soloDots) {
 }
 
 renderBeatDots(4); setStatus('', '대기 중...');
+soloRenderSetlist();
 
 
 
