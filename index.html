@@ -742,7 +742,6 @@ async function createRoom() {
   const roomName = document.getElementById('input-room-name').value.trim();
   if (!name) { alert('닉네임을 입력하세요!'); return; }
   if (!roomName) { alert('방 이름을 입력하세요!'); return; }
-  if (!auth.currentUser) { try { await auth.signInAnonymously(); } catch(e) {} }
   const code = generateCode();
   S.myName = name; S.isHost = true; S.roomCode = code;
   await set(ref('rooms/' + code), { name: roomName, bpm: 120, timeSig: 4, isPlaying: false, startAt: null, setlist: [], activeSongId: null, createdAt: serverTimestamp() });
