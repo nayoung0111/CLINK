@@ -293,19 +293,7 @@
           <div class="home-card-desc">혼자 쓰는 메트로놈<br>인터넷 없이도 사용 가능</div>
         </div>
       </div>
-      <!-- 개인 일지 카드 (주석처리됨)
-<!-- DIARY: 개인 일지 카드 (주석처리됨)
-      <!-- DIARY: 개인 일지 카드 (주석처리됨)
-      <div class="home-card" onclick="openDiary()">
-        <div class="home-card-icon">📓</div>
-        <div class="home-card-text">
-          <div class="home-card-title">개인 일지</div>
-          <div class="home-card-desc">나만의 연습 기록 관리<br>Google 로그인으로 기기 간 동기화</div>
-        </div>
-      </div>
-      -->
--->
-      -->
+
     </div>
   </div>
 
@@ -1198,7 +1186,8 @@ renderBeatDots(4);
 document.addEventListener('click', function(e) {
   const el = e.target.closest('[data-screen]');
   if (!el) return;
-  if (e.target.closest('[onclick]')) return;
+  // onclick이 직접 붙은 버튼(방 만들기 등)은 화면 전환 스킵
+  if (e.target.tagName === 'BUTTON' && e.target.hasAttribute('onclick')) return;
   const id = el.getAttribute('data-screen');
   if (id !== 'screen-solo' && typeof soloStop === 'function') soloStop();
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
